@@ -32,10 +32,10 @@ describe('magickwand.js', () => {
     });
     it('package options', () => {
       const r = runXpm('magickwand.js', 'showMesonOptions', {
-        'npm_config_magickwand.js:enable_fonts': 'true',
-        'npm_config_magickwand.js:disable_png': 'true',
-        'npm_config_magickwand.js:enable_jpeg': '',
-        'npm_config_magickwand.js:c_args': '-O0'
+        'npm_config_magickwand_js_enable_fonts': 'true',
+        'npm_config_magickwand_js_disable_png': 'true',
+        'npm_config_magickwand_js_enable_jpeg': '',
+        'npm_config_magickwand_js_c_args': '-O0'
       });
       assert.sameMembers(r, ['-Dc_args=\'-O0\'', '-Dfonts=True', '-Dpng=False']);
     });
@@ -45,10 +45,10 @@ describe('magickwand.js', () => {
         'npm_config_enable_png': 'true',
         'npm_config_disable_jpeg': 'true',
         'npm_config_c_args': '-O2',
-        'npm_config_magickwand.js:enable_fonts': 'true',
-        'npm_config_magickwand.js:disable_png': 'true',
-        'npm_config_magickwand.js:enable_jpeg': 'true',
-        'npm_config_magickwand.js:c_args': '-O0'
+        'npm_config_magickwand_js_enable_fonts': 'true',
+        'npm_config_magickwand_js_disable_png': 'true',
+        'npm_config_magickwand_js_enable_jpeg': 'true',
+        'npm_config_magickwand_js_c_args': '-O0'
       });
       assert.sameMembers(r, ['-Dc_args=\'-O0\'', '-Djpeg=True', '-Dfonts=True', '-Dpng=False']);
     });

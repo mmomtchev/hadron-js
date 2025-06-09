@@ -12,9 +12,9 @@ import assert from 'node:assert';
  * - "npm_config_enable_option=true" env variable
  * - "--enable-option" npm install CLI option
  *
- * "magickwand.js:enable_option=true" .npmrc entry 
- * "npm_config_magickwand.js:enable_option=true" env variable
- * "--magickwand.js:enable-option" npm install CLI option
+ * "magickwand_js_enable_option=true" .npmrc entry 
+ * "npm_config_magickwand_js_enable_option=true" env variable
+ * "--magickwand_js_enable-option" npm install CLI option
  */
 
 const quote = os.platform() == 'win32' ? '"' : '\'';
@@ -36,10 +36,11 @@ type Environment = Record<string, string>;
  * Returns true, false, a string or undefined
  */
 function getRawNpmOption(pkgName: string, env: Environment, name: string): OptionVal {
-  const envName = name.replace('-', '_');
-  const enable = !!env[`npm_config_${pkgName ? `${pkgName}:` : ''}enable_${envName}`];
-  const disable = !!env[`npm_config_${pkgName ? `${pkgName}:` : ''}disable_${envName}`];
-  const string = env[`npm_config_${pkgName ? `${pkgName}:` : ''}${envName}`];
+  const envName = name.replace(/[^a-zA-Z0-9]/, '_');
+  pkgName = pkgName.replace(/[^a-zA-Z0-9]/, '_');
+  const enable = !!env[`npm_config_${pkgName ? `${pkgName}_` : ''}enable_${envName}`];
+  const disable = !!env[`npm_config_${pkgName ? `${pkgName}_` : ''}disable_${envName}`];
+  const string = env[`npm_config_${pkgName ? `${pkgName}_` : ''}${envName}`];
 
   if (+enable + +disable + +(!!string) > 1) {
     const err = `Conflicting settings present for ${name}`;
