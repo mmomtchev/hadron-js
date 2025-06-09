@@ -14,6 +14,11 @@ function runXpm(dir: string, cmd: string, env?: Record<string, string>) {
 }
 
 describe('magickwand.js', () => {
+  before('install xpacks', () => {
+    cp.spawnSync('npx',
+      ['xpm', 'install', '-q', '-C', path.resolve(fixtures, 'magickwand.js')]);
+  });
+
   describe('meson options', () => {
     it('global options', () => {
       const r = runXpm('magickwand.js', 'showMesonOptions', {
