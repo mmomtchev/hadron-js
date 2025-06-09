@@ -1,23 +1,27 @@
 import * as cp from 'node:child_process';
 import * as path from 'node:path';
+import * as os from 'node:os';
 import { assert } from 'chai';
 
 const fixtures = path.resolve(__dirname, 'fixtures');
 
+const npx = os.platform() === 'win32' ? 'npx.cmd' : 'npx';
+
 function runXpm(dir: string, cmd: string, env?: Record<string, string>) {
-  const r = cp.spawnSync('npx',
+  const r = cp.spawnSync(npx,
     ['xpm', 'run', '-q', '-C', path.resolve(fixtures, dir), cmd],
-    { env: { ...process.env, ...env } });
+    { env: { ...process.env, ...env }, shell: true });
   assert.isUndefined(r.error);
   assert.isEmpty(r.stderr, r.stderr.toString());
   return r.stdout.toString().trim().split(' ');
 }
 
 describe('magickwand.js', () => {
-  before('install xpacks', function() {
+  before('install xpacks', function () {
     this.timeout(60000);
-    cp.spawnSync('npx',
-      ['xpm', 'install', '-q', '-C', path.resolve(fixtures, 'magickwand.js')]);
+    cp.spawnSync(npx,
+      ['xpm', 'install', '-q', '-C', path.resolve(fixtures, 'magickwand.js')],
+      { shell: true });
   });
 
   describe('meson options', () => {
