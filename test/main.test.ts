@@ -9,8 +9,12 @@ const npx = os.platform() === 'win32' ? 'npx.cmd' : 'npx';
 
 function runXpm(dir: string, cmd: string, env?: Record<string, string>) {
   const r = cp.spawnSync(npx,
-    ['xpm', 'run', '-q', '-C', path.resolve(fixtures, dir), cmd],
-    { env: { ...process.env, ...env }, shell: true });
+    ['xpm', 'run', '-q', cmd],
+    {
+      env: { ...process.env, ...env },
+      cwd: path.resolve(fixtures, dir),
+      shell: true
+    });
   assert.isUndefined(r.error);
   assert.isEmpty(r.stderr, r.stderr.toString());
   return r.stdout.toString().trim().split(' ');
@@ -20,8 +24,8 @@ describe('magickwand.js', () => {
   before('install xpacks', function () {
     this.timeout(240000);
     cp.spawnSync(npx,
-      ['xpm', 'install', '-q', '-C', path.resolve(fixtures, 'magickwand.js')],
-      { shell: true });
+      ['xpm', 'install', '-q'],
+      { cwd: path.resolve(fixtures, 'magickwand.js'), shell: true });
   });
 
   describe('meson options', () => {
