@@ -1,0 +1,38 @@
+{
+  "name": "hadron",
+  "version": "1.0.0",
+  "description": "The hadron build system",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmomtchev/hadron-js.git"
+  },
+  "keywords": [
+    "hadron",
+    "meson",
+    "node",
+    "wasm",
+    "swig",
+    "conan"
+  ],
+  "author": "Momtchil Momtchev <momtchil@momtchev.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmomtchev/hadron-js/issues"
+  },
+  "homepage": "https://github.com/mmomtchev/hadron-js#readme",
+  "devDependencies": {
+    "@mmomtchev/xpm": "github:mmomtchev/xpm-js",
+    "@types/chai": "^5.2.2",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.15.30",
+    "chai": "^5.2.0",
+    "mocha": "^11.6.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

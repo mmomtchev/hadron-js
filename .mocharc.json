@@ -1,0 +1,10 @@
+{
+  "spec": "test/*.test.ts",
+  "slow": 5000,
+  "extensions": [
+    "ts"
+  ],
+  "require": [
+    "ts-node/register"
+  ]
+}
