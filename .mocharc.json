@@ -1,6 +1,6 @@
 {
   "spec": "test/*.test.ts",
-  "timeout": 30000,
+  "timeout": 10000,
   "slow": 5000,
   "extensions": [
     "ts"

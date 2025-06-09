@@ -14,7 +14,8 @@ function runXpm(dir: string, cmd: string, env?: Record<string, string>) {
 }
 
 describe('magickwand.js', () => {
-  before('install xpacks', () => {
+  before('install xpacks', function() {
+    this.timeout(60000);
     cp.spawnSync('npx',
       ['xpm', 'install', '-q', '-C', path.resolve(fixtures, 'magickwand.js')]);
   });
