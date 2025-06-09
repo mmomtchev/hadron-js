@@ -9,7 +9,7 @@ function runXpm(dir: string, cmd: string, env?: Record<string, string>) {
     ['xpm', 'run', '-q', '-C', path.resolve(fixtures, dir), cmd],
     { env: { ...process.env, ...env } });
   assert.isUndefined(r.error);
-  assert.isEmpty(r.stderr);
+  assert.isEmpty(r.stderr, r.stderr.toString());
   return r.stdout.toString().trim().split(' ');
 }
 
