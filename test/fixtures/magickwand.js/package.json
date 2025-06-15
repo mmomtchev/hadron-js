@@ -168,8 +168,8 @@
       "scriptInstallWASM": "npx prebuild-install --platform emscripten --arch wasm32 -d {{ properties.verbose }} || ( npx xpm install && xpm run prepare --config wasm && xpm run build --config wasm )"
     },
     "actions": {
-      "showMesonOptions": "echo \"{% mesonOptions %}\"",
-      "showConanOptions": "echo \"{% conanOptions %}\"",
+      "showMesonOptions": "node -p 'JSON.stringify(process.argv)' -- {% mesonOptions %}",
+      "showConanOptions": "node -p 'JSON.stringify(process.argv)' -- {% conanOptions %}",
       "generate": [
         "{{ properties.commandGenerateImageMagickConfigure }}",
         "{{ properties.commandGenerate_magickcore }}",

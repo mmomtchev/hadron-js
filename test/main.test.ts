@@ -17,7 +17,9 @@ function runXpm(dir: string, cmd: string, env?: Record<string, string>) {
     });
   assert.isUndefined(r.error);
   assert.isEmpty(r.stderr, r.stderr.toString());
-  return r.stdout.toString().trim().split(' ');
+  const args = JSON.parse(r.stdout.toString());
+  args.shift();
+  return args;
 }
 
 describe('magickwand.js', () => {
@@ -34,31 +36,31 @@ describe('magickwand.js', () => {
         'npm_config_enable_fonts': 'true',
         'npm_config_disable_png': 'true',
         'npm_config_enable_jpeg': '',
-        'npm_config_c_args': '-O0'
+        'npm_config_c_args': '-O0 -DDEBUG'
       });
-      assert.sameMembers(r, ['-Dc_args=\'-O0\'', '-Dfonts=True', '-Dpng=False']);
+      assert.sameMembers(r, ['-Dc_args=-O0 -DDEBUG', '-Dfonts=True', '-Dpng=False']);
     });
     it('package options', () => {
       const r = runXpm('magickwand.js', 'showMesonOptions', {
         'npm_config_magickwand_js_enable_fonts': 'true',
         'npm_config_magickwand_js_disable_png': 'true',
         'npm_config_magickwand_js_enable_jpeg': '',
-        'npm_config_magickwand_js_c_args': '-O0'
+        'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
       });
-      assert.sameMembers(r, ['-Dc_args=\'-O0\'', '-Dfonts=True', '-Dpng=False']);
+      assert.sameMembers(r, ['-Dc_args=-O0 -DDEBUG', '-Dfonts=True', '-Dpng=False']);
     });
     it('overrides', () => {
       const r = runXpm('magickwand.js', 'showMesonOptions', {
         'npm_config_disable_fonts': 'true',
         'npm_config_enable_png': 'true',
         'npm_config_disable_jpeg': 'true',
-        'npm_config_c_args': '-O2',
+        'npm_config_c_args': '-O2 -DNDEBUG',
         'npm_config_magickwand_js_enable_fonts': 'true',
         'npm_config_magickwand_js_disable_png': 'true',
         'npm_config_magickwand_js_enable_jpeg': 'true',
-        'npm_config_magickwand_js_c_args': '-O0'
+        'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
       });
-      assert.sameMembers(r, ['-Dc_args=\'-O0\'', '-Djpeg=True', '-Dfonts=True', '-Dpng=False']);
+      assert.sameMembers(r, ['-Dc_args=-O0 -DDEBUG', '-Djpeg=True', '-Dfonts=True', '-Dpng=False']);
     });
     it('conflicts', () => {
       assert.throws(() => {
