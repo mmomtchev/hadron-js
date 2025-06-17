@@ -109,7 +109,8 @@
     "@mmomtchev/prebuild-install": "^1.0.2",
     "@mmomtchev/xpm": "github:mmomtchev/xpm-js",
     "emnapi": "=1.4.3",
-    "node-addon-api": "^8.0.0"
+    "node-addon-api": "^8.0.0",
+    "liquidjs": "^10.19.1"
   },
   "engines": {
     "node": ">=18"
@@ -170,6 +171,8 @@
     "actions": {
       "showMesonOptions": "node -p \"JSON.stringify(process.argv)\" -- {% mesonOptions %}",
       "showConanOptions": "node -p \"JSON.stringify(process.argv)\" -- {% conanOptions %}",
+      "unlessSkipNative": "{% unlessNpmOption skip_native %}echo triggered{% endunlessNpmOption %}",
+      "ifSkipWasm": "{% ifNpmOption skip_wasm %}echo triggered{% endifNpmOption %}",
       "generate": [
         "{{ properties.commandGenerateImageMagickConfigure }}",
         "{{ properties.commandGenerate_magickcore }}",
@@ -179,8 +182,8 @@
       ],
       "npm-install": [
         "{% if env.npm_config_loglevel %}{{ properties.commandShowEnv[os.platform] }}{% endif %}",
-        "{% unless env.npm_config_skip_magickwand_native %}{{ properties.scriptInstallNative }}{% endunless %}",
-        "{% unless env.npm_config_skip_magickwand_wasm %}{{ properties.scriptInstallWASM }}{% endunless %}"
+        "{% unlessNpmOption skip_native %}{{ properties.scriptInstallNative }}{% endunlessNpmOption %}",
+        "{% unlessNpmOption skip_wasm %}{{ properties.scriptInstallWASM }}{% endunlessNpmOption %}"
       ],
       "python": "python",
       "meson": "meson",

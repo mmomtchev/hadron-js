@@ -17,7 +17,12 @@ function runXpm(dir: string, cmd: string, env?: Record<string, string>) {
     });
   assert.isUndefined(r.error);
   assert.isEmpty(r.stderr, r.stderr.toString());
-  const args = JSON.parse(r.stdout.toString());
+  return r.stdout.toString().trim();
+}
+
+function runXpmJSON(dir: string, cmd: string, env?: Record<string, string>) {
+  const r = runXpm(dir, cmd, env);
+  const args = JSON.parse(r);
   args.shift();
   return args;
 }
@@ -32,7 +37,7 @@ describe('magickwand.js', () => {
 
   describe('meson options', () => {
     it('global options', () => {
-      const r = runXpm('magickwand.js', 'showMesonOptions', {
+      const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
         'npm_config_enable_fonts': 'true',
         'npm_config_disable_png': 'true',
         'npm_config_enable_jpeg': '',
@@ -41,7 +46,7 @@ describe('magickwand.js', () => {
       assert.sameMembers(r, ['-Dc_args=-O0 -DDEBUG', '-Dfonts=True', '-Dpng=False']);
     });
     it('package options', () => {
-      const r = runXpm('magickwand.js', 'showMesonOptions', {
+      const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
         'npm_config_magickwand_js_enable_fonts': 'true',
         'npm_config_magickwand_js_disable_png': 'true',
         'npm_config_magickwand_js_enable_jpeg': '',
@@ -50,7 +55,7 @@ describe('magickwand.js', () => {
       assert.sameMembers(r, ['-Dc_args=-O0 -DDEBUG', '-Dfonts=True', '-Dpng=False']);
     });
     it('overrides', () => {
-      const r = runXpm('magickwand.js', 'showMesonOptions', {
+      const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
         'npm_config_disable_fonts': 'true',
         'npm_config_enable_png': 'true',
         'npm_config_disable_jpeg': 'true',
@@ -64,11 +69,53 @@ describe('magickwand.js', () => {
     });
     it('conflicts', () => {
       assert.throws(() => {
-        const r = runXpm('magickwand.js', 'showMesonOptions', {
+        const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
           'npm_config_enable_fonts': 'true',
           'npm_config_disable_fonts': 'true'
         });
         console.log(r);
+      });
+    });
+  });
+
+  describe('LiquidJS npm option tags', () => {
+
+    describe('unlessNpmOption', () => {
+      it('unlessSkipNative default', () => {
+        const r = runXpm('magickwand.js', 'unlessSkipNative');
+        assert.strictEqual(r, 'triggered');
+      });
+      it('unlessSkipNative global disable', () => {
+        const r = runXpm('magickwand.js', 'unlessSkipNative', {
+          'npm_config_skip_native': 'true'
+        });
+        assert.strictEqual(r, '');
+      });
+      it('unlessSkipNative package disable', () => {
+        const r = runXpm('magickwand.js', 'unlessSkipNative', {
+          'npm_config_magickwand_js_skip_native': 'true'
+        });
+        assert.strictEqual(r, '');
+      });
+      it('unlessSkipNative override disable', () => {
+        const r = runXpm('magickwand.js', 'unlessSkipNative', {
+          'npm_config_skip_native': '',
+          'npm_config_magickwand_js_skip_native': 'true'
+        });
+        assert.strictEqual(r, '');
+      });
+    });
+
+    describe('ifSkipWasm', () => {
+      it('ifSkipWasm default', () => {
+        const r = runXpm('magickwand.js', 'ifSkipWasm');
+        assert.strictEqual(r, '');
+      });
+      it('ifSkipWasm force', () => {
+        const r = runXpm('magickwand.js', 'ifSkipWasm', {
+          'npm_config_skip_wasm': 'true'
+        });
+        assert.strictEqual(r, 'triggered');
       });
     });
   });
