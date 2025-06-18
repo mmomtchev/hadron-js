@@ -118,7 +118,7 @@
   "xpack": {
     "minimumXpmRequired": "0.19.1",
     "liquidPlugins": [
-      "../../../dist/cli-options.js"
+      "../../../dist/index.js"
     ],
     "devDependencies": {
       "@mmomtchev/python-xpack": "3.10.15-1",
