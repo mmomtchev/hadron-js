@@ -16,7 +16,11 @@ function runXpm(dir: string, cmd: string, env?: Record<string, string>) {
       shell: true
     });
   assert.isUndefined(r.error);
-  assert.isEmpty(r.stderr, r.stderr.toString());
+  const err = r.stderr.toString().trim().split('\n')
+    .filter((line: string) => line)
+    .filter((line: string) => !line.match(/conan building packages in/))
+    .filter((line: string) => !line.match(/This directory can grow to a considerable size/));
+  assert.isEmpty(err, r.stderr.toString());
   return r.stdout.toString().trim();
 }
 
@@ -69,11 +73,52 @@ describe('magickwand.js', () => {
     });
     it('conflicts', () => {
       assert.throws(() => {
-        const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
+        runXpmJSON('magickwand.js', 'showMesonOptions', {
           'npm_config_enable_fonts': 'true',
           'npm_config_disable_fonts': 'true'
         });
-        console.log(r);
+      });
+    });
+  });
+
+  describe('conan options', () => {
+    it('global options', () => {
+      const r = runXpmJSON('magickwand.js', 'showConanOptions', {
+        'npm_config_enable_fonts': 'true',
+        'npm_config_disable_png': 'true',
+        'npm_config_enable_jpeg': '',
+        'npm_config_c_args': '-O0 -DDEBUG'
+      });
+      assert.sameMembers(r, ['-o', 'fonts=True', '-o', 'png=False']);
+    });
+    it('package options', () => {
+      const r = runXpmJSON('magickwand.js', 'showConanOptions', {
+        'npm_config_magickwand_js_enable_fonts': 'true',
+        'npm_config_magickwand_js_disable_png': 'true',
+        'npm_config_magickwand_js_enable_jpeg': '',
+        'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
+      });
+      assert.sameMembers(r, ['-o', 'fonts=True', '-o', 'png=False']);
+    });
+    it('overrides', () => {
+      const r = runXpmJSON('magickwand.js', 'showConanOptions', {
+        'npm_config_disable_fonts': 'true',
+        'npm_config_enable_png': 'true',
+        'npm_config_disable_jpeg': 'true',
+        'npm_config_c_args': '-O2 -DNDEBUG',
+        'npm_config_magickwand_js_enable_fonts': 'true',
+        'npm_config_magickwand_js_disable_png': 'true',
+        'npm_config_magickwand_js_enable_jpeg': 'true',
+        'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
+      });
+      assert.sameMembers(r, ['-o', 'jpeg=True', '-o', 'fonts=True', '-o', 'png=False']);
+    });
+    it('conflicts', () => {
+      assert.throws(() => {
+        runXpmJSON('magickwand.js', 'showConanOptions', {
+          'npm_config_enable_fonts': 'true',
+          'npm_config_disable_fonts': 'true'
+        });
       });
     });
   });
