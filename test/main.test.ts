@@ -32,10 +32,13 @@ function runXpmJSON(dir: string, cmd: string, env?: Record<string, string>) {
 }
 
 describe('magickwand.js', () => {
-  before('install xpacks', function () {
+  before('install xpacks / initialize conan profile', function () {
     this.timeout(240000);
     cp.spawnSync(npx,
       ['xpm', 'install', '-q'],
+      { cwd: path.resolve(fixtures, 'magickwand.js'), shell: true });
+    cp.spawnSync(npx,
+      ['xpm', 'run', '-q', 'conan'],
       { cwd: path.resolve(fixtures, 'magickwand.js'), shell: true });
   });
 
