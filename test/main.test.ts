@@ -99,7 +99,7 @@ describe('magickwand.js', () => {
         'npm_config_enable_jpeg': '',
         'npm_config_c_args': '-O0 -DDEBUG'
       });
-      assert.sameMembers(r, ['-o', 'fonts=True', '-o', 'png=False']);
+      assert.sameOrderedMembers(r, ['-o', 'fonts=True', '-o', 'png=False']);
     });
     it('package options', () => {
       const r = runXpmJSON('magickwand.js', 'showConanOptions', {
@@ -108,7 +108,7 @@ describe('magickwand.js', () => {
         'npm_config_magickwand_js_enable_jpeg': '',
         'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
       });
-      assert.sameMembers(r, ['-o', 'fonts=True', '-o', 'png=False']);
+      assert.sameOrderedMembers(r, ['-o', 'fonts=True', '-o', 'png=False']);
     });
     it('package overrides', () => {
       const r = runXpmJSON('magickwand.js', 'showConanOptions', {
@@ -121,14 +121,14 @@ describe('magickwand.js', () => {
         'npm_config_magickwand_js_enable_jpeg': 'true',
         'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
       });
-      assert.sameMembers(r, ['-o', 'jpeg=True', '-o', 'fonts=True', '-o', 'png=False']);
+      assert.sameOrderedMembers(r, ['-o', 'fonts=True', '-o', 'jpeg=True', '-o', 'png=False']);
     });
     it('conan overrides', () => {
       const r = runXpmJSON('magickwand.js', 'showConanOptions', {
         'npm_config_enable_fonts': 'true',
         'npm_config_disable_fonts_conan': 'true'
       });
-      assert.sameMembers(r, ['-o', 'fonts=False']);
+      assert.sameOrderedMembers(r, ['-o', 'fonts=False']);
     });
     it('conflicts', () => {
       assert.throws(() => {
