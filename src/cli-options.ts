@@ -11,6 +11,12 @@
  * "magickwand_js_enable_option=true" .npmrc entry 
  * "npm_config_magickwand_js_enable_option=true" env variable
  * "--magickwand_js_enable-option" npm install CLI option
+ * 
+ * Additionally, a `-conan` or a `-meson` suffix will enable
+ * the option only for conan or only for meson - allowing
+ * to enable a given feature by using the system-provided
+ * library without getting the corresponding package
+ * from conan
  */
 
 import * as cp from 'node:child_process';
@@ -26,6 +32,7 @@ const quote = os.platform() == 'win32' ? '"' : '\'';
 // that is not the meson meaning
 const mesonBlacklist = ['prefix'];
 
+type NpmContext = 'meson' | 'conan' | undefined;
 type OptionVal = boolean | string | undefined;
 type ConanOption = Record<string, string[]>;
 type MesonOption = {
@@ -61,8 +68,14 @@ function getRawNpmOption(pkgName: string, env: Environment, name: string): Optio
  * Get an npm option taking into account package overrides 
  * Returns true, false, a string or undefined
  */
-function getNpmOption(pkgName: string, env: Environment, name: string): OptionVal {
+function getNpmOption(pkgName: string, env: Environment,
+    name: string, context?: NpmContext): OptionVal {
   const pkgOverride = getRawNpmOption(pkgName, env, name);
+  if (context) {
+    const r = getNpmOption(pkgName, env, `${name}-${context}`, undefined);
+    if (r !== undefined)
+      return r;
+  }
   if (pkgOverride !== undefined) {
     if (env['npm_config_loglevel'])
       console.info(` - npm package ${pkgName} option ${name} = ${pkgOverride}`);
@@ -127,7 +140,7 @@ function parseMesonOptions(pkgName: string, env: Environment, mesonOptions: Meso
     if (mesonBlacklist.includes(opt.name))
       continue;
 
-    const val = getNpmOption(pkgName, env, opt.name);
+    const val = getNpmOption(pkgName, env, opt.name, 'meson');
     switch (opt.type) {
       case 'string':
         {
@@ -170,7 +183,7 @@ function parseConanOptions(pkgName: string, env: Environment, conanOptions: Cona
   let result = '';
 
   for (const opt of Object.keys(conanOptions)) {
-    const val = getNpmOption(pkgName, env, opt);
+    const val = getNpmOption(pkgName, env, opt, 'conan');
 
     if (val === true) {
       if (conanOptions[opt].includes('True')) {

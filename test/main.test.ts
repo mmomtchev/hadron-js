@@ -61,7 +61,7 @@ describe('magickwand.js', () => {
       });
       assert.sameMembers(r, ['-Dc_args=-O0 -DDEBUG', '-Dfonts=True', '-Dpng=False']);
     });
-    it('overrides', () => {
+    it('package overrides', () => {
       const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
         'npm_config_disable_fonts': 'true',
         'npm_config_enable_png': 'true',
@@ -73,6 +73,13 @@ describe('magickwand.js', () => {
         'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
       });
       assert.sameMembers(r, ['-Dc_args=-O0 -DDEBUG', '-Djpeg=True', '-Dfonts=True', '-Dpng=False']);
+    });
+    it('meson overrides', () => {
+      const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
+        'npm_config_disable_fonts': 'true',
+        'npm_config_enable_fonts_meson': 'true'
+      });
+      assert.sameMembers(r, ['-Dfonts=True']);
     });
     it('conflicts', () => {
       assert.throws(() => {
@@ -103,7 +110,7 @@ describe('magickwand.js', () => {
       });
       assert.sameMembers(r, ['-o', 'fonts=True', '-o', 'png=False']);
     });
-    it('overrides', () => {
+    it('package overrides', () => {
       const r = runXpmJSON('magickwand.js', 'showConanOptions', {
         'npm_config_disable_fonts': 'true',
         'npm_config_enable_png': 'true',
@@ -115,6 +122,13 @@ describe('magickwand.js', () => {
         'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
       });
       assert.sameMembers(r, ['-o', 'jpeg=True', '-o', 'fonts=True', '-o', 'png=False']);
+    });
+    it('conan overrides', () => {
+      const r = runXpmJSON('magickwand.js', 'showConanOptions', {
+        'npm_config_enable_fonts': 'true',
+        'npm_config_disable_fonts_conan': 'true'
+      });
+      assert.sameMembers(r, ['-o', 'fonts=False']);
     });
     it('conflicts', () => {
       assert.throws(() => {
