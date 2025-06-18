@@ -213,4 +213,11 @@ describe('magickwand.js', () => {
       });
     });
   });
+
+  describe('LiquidJS profile directories tags', () => {
+    it('showMesonProfile', () => {
+      const r = runXpm('magickwand.js', 'showMesonProfile');
+      assert.isString(r);
+    });
+  });
 });

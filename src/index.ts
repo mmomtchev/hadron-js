@@ -19,23 +19,38 @@
  * from conan
  */
 
+import * as path from 'node:path';
+
+import * as Liquid from 'liquidjs';
+
 import { mesonBuildOptions, parseMesonOptions } from './meson.js';
 import { conanBuildOptions, parseConanOptions } from './conan.js';
 import { IfNpmOption } from './if-unless.js';
 
-module.exports = function () {
-  this.registerTag('mesonOptions', class MesonOptions {
-    render(context) {
-      const pkgName = context.environments.package.name as string;
-      const mesonOptions = mesonBuildOptions(context.environments.PATH);
-      return parseMesonOptions(pkgName, context.environments.env, mesonOptions);
+module.exports = function (this: Liquid.Liquid) {
+  this.registerTag('mesonProfiles', class MesonProfiles extends Liquid.Tag {
+    render(context: Liquid.Context, emitter: Liquid.Emitter) {
+      return path.resolve(__dirname, '..', 'meson');
+    }
+  })
+  this.registerTag('conanProfiles', class ConanProfiles extends Liquid.Tag {
+    render(context: Liquid.Context, emitter: Liquid.Emitter) {
+      return path.resolve(__dirname, '..', 'conan');
+    }
+  })
+
+  this.registerTag('mesonOptions', class MesonOptions extends Liquid.Tag {
+    render(context: Liquid.Context, emitter: Liquid.Emitter) {
+      const pkgName = context.environments['package'].name as string;
+      const mesonOptions = mesonBuildOptions(context.environments['PATH']);
+      return parseMesonOptions(pkgName, context.environments['env'], mesonOptions);
     }
   });
-  this.registerTag('conanOptions', class ConanOptions {
-    render(context) {
-      const pkgName = context.environments.package.name as string;
-      const conanOptions = conanBuildOptions(context.environments.PATH);
-      return parseConanOptions(pkgName, context.environments.env, conanOptions);
+  this.registerTag('conanOptions', class ConanOptions extends Liquid.Tag {
+    render(context: Liquid.Context, emitter: Liquid.Emitter) {
+      const pkgName = context.environments['package'].name as string;
+      const conanOptions = conanBuildOptions(context.environments['PATH']);
+      return parseConanOptions(pkgName, context.environments['env'], conanOptions);
     }
   });
 

@@ -141,6 +141,11 @@
         "linux": "env",
         "darwin": "env"
       },
+      "commandCat": {
+        "win32": "type",
+        "linux": "cat",
+        "darwin": "cat"
+      },
       "configNative": "{% if env.npm_config_enable_standalone_build %}native-xpack{% else %}native{% endif %}",
       "cwd": "{{ path.sep | path_relative: '.' }}",
       "commandGenerateImageMagickConfigure": "cmake -S deps/ImageMagick -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DMAGICK_HDRI_ENABLE=ON -DMAGICKCORE_QUANTUM_DEPTH=16 -B preconf",
@@ -173,6 +178,7 @@
       "showConanOptions": "node -p \"JSON.stringify(process.argv)\" -- {% conanOptions %}",
       "unlessSkipNative": "{% unlessNpmOption skip_native %}echo triggered{% endunlessNpmOption %}",
       "ifSkipWasm": "{% ifNpmOption skip_wasm %}echo triggered{% endifNpmOption %}",
+      "showMesonProfile": "{{ properties.commandCat[os.platform] }} {% mesonProfiles %}{{ path.sep }}system-{{ os.platform }}.ini",
       "generate": [
         "{{ properties.commandGenerateImageMagickConfigure }}",
         "{{ properties.commandGenerate_magickcore }}",
