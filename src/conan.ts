@@ -1,7 +1,7 @@
 import * as cp from 'node:child_process';
 import assert from 'node:assert';
 
-import { ConanOption, Environment, getNpmOption, quote } from './util.js';
+import { ConanOption, Environment, getNpmOption, optionEquivalence, OptionVal, quote } from './util.js';
 
 export function conanBuildOptions(path: string): ConanOption[] {
   let o, r;
@@ -54,6 +54,20 @@ export function parseConanOptions(pkgName: string, env: Environment, conanOption
       } else {
         throw new Error(`${opt} does not support "${val}" setting`);
       }
+    }
+  }
+
+  for (const opt of optionEquivalence) {
+    let val: OptionVal;
+    for (const ctx of Object.keys(opt)) {
+      val = getNpmOption(pkgName, env, opt[ctx], 'conan');
+      if (val !== undefined) {
+        break;
+      }
+    }
+
+    if (val !== undefined) {
+      result += ` -s ${opt.conan}=${quote}${val}${quote}`;
     }
   }
 

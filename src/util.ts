@@ -11,6 +11,25 @@ export type Environment = Record<string, string>;
 
 export const quote = os.platform() == 'win32' ? '"' : '\'';
 
+export const optionEquivalence: Record<NpmContext, string>[] = [
+  { 
+    'meson': 'c_args',
+    'conan': 'tools.build:cflags'
+  },
+  {
+    'meson': 'cpp_args',
+    'conan': 'tools.build:cxxflags'
+  },
+  {
+    'meson': 'c_link_args',
+    'conan': 'tools.build:sharedlinkflags'
+  },
+  {
+    'meson': 'cpp_link_args',
+    'conan': 'tools.build:sharedlinkflags'
+  }
+];
+
 /**
  * Get a global npm option from the environment
  * Returns true, false, a string or undefined

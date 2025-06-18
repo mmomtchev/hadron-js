@@ -26,7 +26,13 @@ function runXpm(dir: string, cmd: string, env?: Record<string, string>) {
 
 function runXpmJSON(dir: string, cmd: string, env?: Record<string, string>) {
   const r = runXpm(dir, cmd, env);
-  const args = JSON.parse(r);
+  let args: string[];
+  try {
+    args = JSON.parse(r);
+  } catch (e) {
+    console.error('failed parsing JSON', r);
+    throw e;
+  }
   args.shift();
   return args;
 }
@@ -50,7 +56,11 @@ describe('magickwand.js', () => {
         'npm_config_enable_jpeg': '',
         'npm_config_c_args': '-O0 -DDEBUG'
       });
-      assert.sameMembers(r, ['-Dc_args=-O0 -DDEBUG', '-Dfonts=True', '-Dpng=False']);
+      assert.sameMembers(r, [
+        '-Dc_args=-O0 -DDEBUG',
+        '-Dfonts=True',
+        '-Dpng=False'
+      ]);
     });
     it('package options', () => {
       const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
@@ -59,7 +69,11 @@ describe('magickwand.js', () => {
         'npm_config_magickwand_js_enable_jpeg': '',
         'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
       });
-      assert.sameMembers(r, ['-Dc_args=-O0 -DDEBUG', '-Dfonts=True', '-Dpng=False']);
+      assert.sameMembers(r, [
+        '-Dc_args=-O0 -DDEBUG',
+        '-Dfonts=True',
+        '-Dpng=False'
+      ]);
     });
     it('package overrides', () => {
       const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
@@ -72,7 +86,12 @@ describe('magickwand.js', () => {
         'npm_config_magickwand_js_enable_jpeg': 'true',
         'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
       });
-      assert.sameMembers(r, ['-Dc_args=-O0 -DDEBUG', '-Djpeg=True', '-Dfonts=True', '-Dpng=False']);
+      assert.sameMembers(r, [
+        '-Dc_args=-O0 -DDEBUG',
+        '-Djpeg=True',
+        '-Dfonts=True',
+        '-Dpng=False'
+      ]);
     });
     it('meson overrides', () => {
       const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
@@ -99,7 +118,11 @@ describe('magickwand.js', () => {
         'npm_config_enable_jpeg': '',
         'npm_config_c_args': '-O0 -DDEBUG'
       });
-      assert.sameOrderedMembers(r, ['-o', 'fonts=True', '-o', 'png=False']);
+      assert.sameOrderedMembers(r, [
+        '-o', 'fonts=True',
+        '-o', 'png=False',
+        '-s', 'tools.build:cflags=-O0 -DDEBUG'
+      ]);
     });
     it('package options', () => {
       const r = runXpmJSON('magickwand.js', 'showConanOptions', {
@@ -108,7 +131,11 @@ describe('magickwand.js', () => {
         'npm_config_magickwand_js_enable_jpeg': '',
         'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
       });
-      assert.sameOrderedMembers(r, ['-o', 'fonts=True', '-o', 'png=False']);
+      assert.sameOrderedMembers(r, [
+        '-o', 'fonts=True',
+        '-o', 'png=False',
+        '-s', 'tools.build:cflags=-O0 -DDEBUG'
+      ]);
     });
     it('package overrides', () => {
       const r = runXpmJSON('magickwand.js', 'showConanOptions', {
@@ -121,7 +148,12 @@ describe('magickwand.js', () => {
         'npm_config_magickwand_js_enable_jpeg': 'true',
         'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
       });
-      assert.sameOrderedMembers(r, ['-o', 'fonts=True', '-o', 'jpeg=True', '-o', 'png=False']);
+      assert.sameOrderedMembers(r, [
+        '-o', 'fonts=True',
+        '-o', 'jpeg=True',
+        '-o', 'png=False',
+        '-s', 'tools.build:cflags=-O0 -DDEBUG'
+      ]);
     });
     it('conan overrides', () => {
       const r = runXpmJSON('magickwand.js', 'showConanOptions', {
