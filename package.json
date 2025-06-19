@@ -2,7 +2,7 @@
   "name": "hadron",
   "version": "1.0.0",
   "description": "The hadron build system",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "prepare": "tsc",
     "test": "npx mocha"
