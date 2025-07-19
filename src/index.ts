@@ -23,17 +23,18 @@ import * as path from 'node:path';
 
 import * as Liquid from 'liquidjs';
 
-import { mesonBuildOptions, parseMesonOptions } from './meson.js';
+import { mesonBuildOptions, MesonProfile, parseMesonOptions } from './meson.js';
 import { conanBuildOptions, parseConanOptions } from './conan.js';
 import { IfNpmOption } from './if-unless.js';
 
 module.exports = function (this: Liquid.Liquid) {
-  this.registerTag('mesonProfiles', class MesonProfiles extends Liquid.Tag {
+  this.registerTag('mesonProfiles', class MesonProfilesDir extends Liquid.Tag {
     render(context: Liquid.Context, emitter: Liquid.Emitter) {
       return path.resolve(__dirname, '..', 'meson');
     }
   })
-  this.registerTag('conanProfiles', class ConanProfiles extends Liquid.Tag {
+  this.registerTag('mesonProfile', MesonProfile);
+  this.registerTag('conanProfiles', class ConanProfilesDir extends Liquid.Tag {
     render(context: Liquid.Context, emitter: Liquid.Emitter) {
       return path.resolve(__dirname, '..', 'conan');
     }

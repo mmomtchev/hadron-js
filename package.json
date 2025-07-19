@@ -24,6 +24,10 @@
   "bugs": {
     "url": "https://github.com/mmomtchev/hadron-js/issues"
   },
+  "exports": {
+    ".": "./dist/index.js",
+    "./hadron.json": "./hadron.json"
+  },
   "homepage": "https://github.com/mmomtchev/hadron-js#readme",
   "devDependencies": {
     "@mmomtchev/xpm": "github:mmomtchev/xpm-js",
