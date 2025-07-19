@@ -1,5 +1,5 @@
 {
-  "name": "hadron",
+  "name": "@mmomtchev/hadron",
   "version": "1.0.0",
   "description": "The hadron build system",
   "main": "dist/index.js",
