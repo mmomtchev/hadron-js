@@ -26,7 +26,7 @@
       },
       "argsMesonPrepare": "",
       "argsMesonCompile": "",
-      "configNative": "{% ifNpmOption standalone_build %}native-xpack{% else %}native{% endifNpmOption %}",
+      "configNative": "{% ifNpmOption standalone_build %}native-xpack{% endifNpmOption %}{% unlessNpmOption standalone_build %}native{% endunlessNpmOption %}",
       "cwd": "{{ path.sep | path_relative: '.' }}",
       "commandGenerateImageMagickConfigure": "cmake -S deps/ImageMagick -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DMAGICK_HDRI_ENABLE=ON -DMAGICKCORE_QUANTUM_DEPTH=16 -B preconf",
       "commandGenerate_magickcore": "node src/deps.js src/deps-stub.cc MagickCore swig/magickcore.i",
