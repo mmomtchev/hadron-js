@@ -16,7 +16,7 @@
       "showConanOptions": "node -p \"JSON.stringify(process.argv)\" -- {% conanOptions %}",
       "unlessSkipNative": "{% unlessNpmOption skip_native %}echo triggered{% endunlessNpmOption %}",
       "ifSkipWasm": "{% ifNpmOption skip_wasm %}echo triggered{% endifNpmOption %}",
-      "showConanProfile": "{{ properties.commandCat[os.platform] }} {% hadronProfilesPath %}{{ path.sep }}conan+meson-dual-async{{ path.sep }}system-{{ os.platform }}.profile"
+      "showConanProfile": "{{ properties.commandCat[os.platform] }} {{ properties.hadronProfilesPath }}{{ path.sep }}system-{{ os.platform }}.profile"
     }
   }
 }

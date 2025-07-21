@@ -1,0 +1,37 @@
+{
+  "minimumXpmRequired": "0.20.0",
+  "properties": {
+    "hadronProfile": "conan+meson-dual-async",
+    "hadronProfilesPath": "{% hadronProfilesPath %}{{ path.sep }}{{ properties.hadronProfile }}",
+    "buildFolderRelativePath": "{{ 'build' | path_join: configuration.name | to_filename | downcase }}",
+    "installFolderPath": "{{ '/' | path_join: properties.cwd | path_join: 'lib' | path_join: 'binding' | path_join: properties.platformId }}",
+    "commandShowEnv": {
+      "win32": "set",
+      "linux": "env",
+      "darwin": "env"
+    },
+    "commandCat": {
+      "win32": "type",
+      "linux": "cat",
+      "darwin": "cat"
+    },
+    "argsConanInstall": "",
+    "configNative": "{% ifNpmOption standalone_build %}native-xpack{% endifNpmOption %}{% unlessNpmOption standalone_build %}native{% endunlessNpmOption %}",
+    "cwd": "{{ path.sep | path_relative: '.' }}",
+    "verbose": "{% ifNpmOption loglevel %}--verbose{% endifNpmOption %}"
+  },
+  "devDependencies": {
+    "@mmomtchev/python-xpack": "3.12.11-2",
+    "@xpack-dev-tools/cmake": "3.27.9-1.2",
+    "@xpack-dev-tools/ninja-build": "1.11.1-3.1"
+  },
+  "actions": {
+    "npm-install": [
+      "{% ifNpmOption loglevel %}{{ properties.commandShowEnv[os.platform] }}{% endifNpmOption %}",
+      "{% unlessNpmOption skip_native %}{{ properties.scriptInstallNative }}{% endunlessNpmOption %}",
+      "{% unlessNpmOption skip_wasm %}{{ properties.scriptInstallWASM }}{% endunlessNpmOption %}"
+    ],
+    "python": "python",
+    "env": "{{ properties.commandShowEnv[os.platform] }}"
+  }
+}

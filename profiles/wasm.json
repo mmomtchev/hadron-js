@@ -1,0 +1,35 @@
+{
+  "buildConfigurations": {
+    "wasm": {
+      "inherit": [
+        "native"
+      ],
+      "properties": {
+        "buildType": "release",
+        "toolchain": "emscripten",
+        "platformId": "emscripten-wasm32"
+      },
+      "actions": {
+        "prepare": [
+          "{{ properties.commandDependenciesWASM }}",
+          "{{ properties.commandPrepareWASM }}"
+        ],
+        "lock": "{{ properties.commandConanLockWASM }}"
+      }
+    },
+    "wasm-debug": {
+      "inherit": [
+        "wasm"
+      ],
+      "properties": {
+        "buildType": "debug"
+      },
+      "actions": {
+        "prepare": [
+          "{{ properties.commandDependenciesWASM }}",
+          "{{ properties.commandPrepareWASM }}"
+        ]
+      }
+    }
+  }
+}

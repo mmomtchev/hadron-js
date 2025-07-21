@@ -1,7 +1,4 @@
 {
-  "properties": {
-    "hadronProfile": "conan+meson-dual-async"
-  },
   "liquidPlugins": [
     "@mmomtchev/hadron"
   ],

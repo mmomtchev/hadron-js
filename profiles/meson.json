@@ -1,0 +1,13 @@
+    {
+      "devDependencies": {
+        "@mmomtchev/meson-xpack": "1.8.0-2"
+      },
+      "properties": {
+        "argsMesonPrepare": "",
+        "argsMesonCompile": "",
+        "showMesonOptions": "echo \"{% mesonOptions %}\""
+      },
+      "actions": {
+        "meson": "meson"
+      }
+    }

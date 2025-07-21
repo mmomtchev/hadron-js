@@ -1,0 +1,26 @@
+    {
+      "devDependencies": {
+        "@mmomtchev/conan-xpack": "2.18.1-1"
+      },
+      "properties": {
+        "argsConanInstall": "",
+        "commandConanBuildEnv": {
+          "win32": "{{ properties.buildFolderRelativePath }}\\conanbuild.bat && ",
+          "linux": ". {{ properties.buildFolderRelativePath }}/conanbuild.sh && ",
+          "darwin": ". {{ properties.buildFolderRelativePath }}/conanbuild.sh && "
+        },
+        "argsConanShared": "--build=missing --settings=build_type={{ properties.buildType | capitalize }} {{ properties.argsConanInstall }} {% conanOptions %}",
+        "argsConanNative": "-pr:h={{ properties.hadronProfilesPath }}{{ path.sep }}{{ properties.toolchain }}-{{ os.platform }}.profile -pr:b={{ properties.hadronProfilesPath }}{{ path.sep }}{{ properties.toolchain }}-{{ os.platform }}.profile",
+        "argsConanWASM": "-pr:b=default -pr:h={{ properties.hadronProfilesPath }}{{ path.sep }}{{ properties.toolchain }}.profile",
+        "commandConanDependencies": "conan install . {{ properties.argsConanShared }} -of {{ properties.buildFolderRelativePath }} {% conanOptions %}",
+        "commandDependenciesNative": "{{ properties.commandConanDependencies }} {{ properties.argsConanNative }}",
+        "commandDependenciesWASM": "{{ properties.commandConanDependencies }} {{ properties.argsConanWASM }}",
+        "commandConanLock": "conan lock create . {{ properties.argsConanShared }}",
+        "commandConanLockNative": "{{ properties.commandConanLock }} {{ properties.argsConanNative }}",
+        "commandConanLockWASM": "{{ properties.commandConanLock }} {{ properties.argsConanWASM }}",
+        "showConanOptions": "echo \"{% conanOptions %}\""
+      },
+      "actions": {
+        "conan": "conan"
+      }
+    }

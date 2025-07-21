@@ -1,0 +1,56 @@
+{
+  "buildConfigurations": {
+    "native": {
+      "properties": {
+        "buildType": "release",
+        "toolchain": "system",
+        "platformId": "{{ os.platform | concat: '-' | concat: os.arch }}"
+      },
+      "actions": {
+        "prepare": [
+          "{{ properties.commandDependenciesNative }}",
+          "{{ properties.commandPrepareNative }}"
+        ],
+        "configure": "{{ properties.commandConfigure }}",
+        "build": [
+          "{{ properties.commandBuild }}",
+          "{{ properties.commandInstall }}"
+        ],
+        "clean": "{{ properties.commandClean }}",
+        "lock": "{{ properties.commandConanLockNative }}",
+        "conanGraphInfo": "conan graph info {{ properties.argsConanShared }} {{ properties.argsConanNative }} ."
+      }
+    },
+    "native-xpack": {
+      "inherit": [
+        "native"
+      ],
+      "actions": {
+        "clang": "clang"
+      },
+      "properties": {
+        "buildType": "release",
+        "toolchain": "clang"
+      },
+      "devDependencies": {
+        "@xpack-dev-tools/clang": "17.0.6-1.1"
+      }
+    },
+    "native-debug": {
+      "inherit": [
+        "native"
+      ],
+      "properties": {
+        "buildType": "debug"
+      }
+    },
+    "native-xpack-debug": {
+      "inherit": [
+        "native-xpack"
+      ],
+      "properties": {
+        "buildType": "debug"
+      }
+    }
+  }
+}
