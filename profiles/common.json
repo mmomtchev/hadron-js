@@ -15,14 +15,8 @@
       "linux": "cat",
       "darwin": "cat"
     },
-    "argsConanInstall": "",
-    "configNative": "{% ifNpmOption standalone_build %}native-xpack{% endifNpmOption %}{% unlessNpmOption standalone_build %}native{% endunlessNpmOption %}",
     "cwd": "{{ path.sep | path_relative: '.' }}",
-    "verbose": "{% ifNpmOption loglevel %}--verbose{% endifNpmOption %}",
-    "scriptBuildNative": "npx xpm install && npx xpm install --config {{ properties.configNative }} && npx xpm run prepare --config {{ properties.configNative }} && npx xpm run build --config {{ properties.configNative }}",
-    "scriptBuildWASM": "npx xpm install && npx xpm install --config wasm && npx xpm run prepare --config wasm && npx xpm run build --config wasm",
-    "scriptInstallNative": "npx prebuild-install -d {{ properties.verbose }} || ( {{ properties.scriptBuildNative }} )",
-    "scriptInstallWASM": "npx prebuild-install --platform emscripten --arch wasm32 -d {{ properties.verbose }} || ( {{ properties.scriptBuildWASM }})"
+    "verbose": "{% ifNpmOption loglevel %}--verbose{% endifNpmOption %}"
   },
   "devDependencies": {
     "@mmomtchev/python-xpack": "3.12.11-2"
