@@ -5,7 +5,14 @@
       "properties": {
         "argsMesonPrepare": "",
         "argsMesonCompile": "",
-        "showMesonOptions": "echo \"{% mesonOptions %}\""
+        "showMesonOptions": "echo \"{% mesonOptions %}\"",
+        "commandPrepare": "meson setup --backend ninja --buildtype {{ properties.buildType }} {{ properties.buildFolderRelativePath }} . -Dprefix={{ properties.installFolderPath }} {{ properties.argsMesonPrepare }} {% mesonOptions %}",
+        "commandPrepareNative": "{{ properties.commandPrepare }}",
+        "commandPrepareWASM": "{{ properties.commandPrepare }}",
+        "commandConfigure": "meson configure {{ properties.buildFolderRelativePath }}",
+        "commandBuild": "meson compile -C {{ properties.buildFolderRelativePath }} -v",
+        "commandInstall": "meson install -C {{ properties.buildFolderRelativePath }}",
+        "commandClean": "meson compile -C {{ properties.buildFolderRelativePath }} --clean"
       },
       "actions": {
         "meson": "meson"

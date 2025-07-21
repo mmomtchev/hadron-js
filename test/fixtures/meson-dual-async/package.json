@@ -1,0 +1,21 @@
+{
+  "name": "mda",
+  "xpack": {
+    "minimumXpmRequired": "0.20.0",
+    "include": [
+      "../../../profiles/meson-dual-async/hadron.json"
+    ],
+    "liquidPlugins": [
+      "../../../dist/index.js"
+    ],
+    "properties": {
+      "module_name": "meson-dual-async"
+    },
+    "actions": {
+      "showMesonOptions": "node -p \"JSON.stringify(process.argv)\" -- {% mesonOptions %}",
+      "unlessSkipNative": "{% unlessNpmOption skip_native %}echo triggered{% endunlessNpmOption %}",
+      "ifSkipWasm": "{% ifNpmOption skip_wasm %}echo triggered{% endifNpmOption %}",
+      "showMesonProfile": "{{ properties.commandCat[os.platform] }} {{ properties.hadronProfilesPath }}{{ path.sep }}system-{{ os.platform }}.ini"
+    }
+  }
+}

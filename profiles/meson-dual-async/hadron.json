@@ -1,0 +1,8 @@
+  {
+    "include": [
+      "../common.json",
+      "../meson.json",
+      "../native.json",
+      "../wasm.json"
+    ]
+  }

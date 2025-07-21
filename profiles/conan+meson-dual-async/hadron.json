@@ -1,8 +1,8 @@
   {
     "include": [
       "../common.json",
-      "../meson.json",
       "../conan.json",
+      "../meson.json",
       "../native.json",
       "../wasm.json"
     ],
@@ -10,11 +10,6 @@
       "commandPrepare": "{{ properties.commandConanBuildEnv[os.platform] }} meson setup --backend ninja --buildtype {{ properties.buildType }} {{ properties.buildFolderRelativePath }} . -Dprefix={{ properties.installFolderPath }} {{ properties.argsMesonPrepare }} {% mesonOptions %}",
       "commandPrepareNative": "{{ properties.commandPrepare }} --native-file {{ properties.hadronProfilesPath }}{{ path.sep }}conan.ini --native-file {{ properties.buildFolderRelativePath }}/conan_meson_native.ini",
       "commandPrepareWASM": "{{ properties.commandPrepare }} --cross-file {{ properties.hadronProfilesPath }}{{ path.sep }}conan.ini --cross-file {{ properties.buildFolderRelativePath }}/conan_meson_cross.ini",
-      "commandConfigure": "meson configure {{ properties.buildFolderRelativePath }}",
-      "commandBuild": "{{ properties.commandConanBuildEnv[os.platform] }} meson compile -C {{ properties.buildFolderRelativePath }} -v",
-      "commandInstall": "meson install -C {{ properties.buildFolderRelativePath }}",
-      "commandClean": "meson compile -C {{ properties.buildFolderRelativePath }} --clean",
-      "scriptInstallNative": "npx prebuild-install -d {{ properties.verbose }} || ( npx xpm install && npx xpm install --config {{ properties.configNative }} && xpm run prepare --config {{ properties.configNative }} && xpm run build --config {{ properties.configNative }} )",
-      "scriptInstallWASM": "npx prebuild-install --platform emscripten --arch wasm32 -d {{ properties.verbose }} || ( npx xpm install && xpm run prepare --config wasm && xpm run build --config wasm )"
+      "commandBuild": "{{ properties.commandConanBuildEnv[os.platform] }} meson compile -C {{ properties.buildFolderRelativePath }} -v"
     }
   }

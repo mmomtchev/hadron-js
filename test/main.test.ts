@@ -172,6 +172,80 @@ describe('conan+meson-dual-async', () => {
     });
   });
 
+  describe('meson-dual-async', () => {
+    before('install xpacks / initialize conan profile', function () {
+      this.timeout(240000);
+      cp.spawnSync(npx,
+        ['xpm', 'install', '-q'],
+        { cwd: path.resolve(fixtures, 'meson-dual-async'), shell: true });
+      cp.spawnSync(npx,
+        ['xpm', 'run', '-q', 'conan'],
+        { cwd: path.resolve(fixtures, 'meson-dual-async'), shell: true });
+    });
+
+    describe('meson options', () => {
+      it('global options', () => {
+        const r = runXpmJSON('meson-dual-async', 'showMesonOptions', {
+          'npm_config_enable_fonts': 'true',
+          'npm_config_disable_png': 'true',
+          'npm_config_enable_jpeg': '',
+          'npm_config_c_args': '-O0 -DDEBUG'
+        });
+        assert.sameMembers(r, [
+          '-Dc_args=-O0 -DDEBUG',
+          '-Dfonts=True',
+          '-Dpng=False'
+        ]);
+      });
+      it('package options', () => {
+        const r = runXpmJSON('meson-dual-async', 'showMesonOptions', {
+          'npm_config_mda_enable_fonts': 'true',
+          'npm_config_mda_disable_png': 'true',
+          'npm_config_mda_enable_jpeg': '',
+          'npm_config_mda_c_args': '-O0 -DDEBUG'
+        });
+        assert.sameMembers(r, [
+          '-Dc_args=-O0 -DDEBUG',
+          '-Dfonts=True',
+          '-Dpng=False'
+        ]);
+      });
+      it('package overrides', () => {
+        const r = runXpmJSON('meson-dual-async', 'showMesonOptions', {
+          'npm_config_disable_fonts': 'true',
+          'npm_config_enable_png': 'true',
+          'npm_config_disable_jpeg': 'true',
+          'npm_config_c_args': '-O2 -DNDEBUG',
+          'npm_config_mda_enable_fonts': 'true',
+          'npm_config_mda_disable_png': 'true',
+          'npm_config_mda_enable_jpeg': 'true',
+          'npm_config_mda_c_args': '-O0 -DDEBUG'
+        });
+        assert.sameMembers(r, [
+          '-Dc_args=-O0 -DDEBUG',
+          '-Djpeg=True',
+          '-Dfonts=True',
+          '-Dpng=False'
+        ]);
+      });
+      it('meson overrides', () => {
+        const r = runXpmJSON('meson-dual-async', 'showMesonOptions', {
+          'npm_config_disable_fonts': 'true',
+          'npm_config_enable_fonts_meson': 'true'
+        });
+        assert.sameMembers(r, ['-Dfonts=True']);
+      });
+      it('conflicts', () => {
+        assert.throws(() => {
+          runXpmJSON('meson-dual-async', 'showMesonOptions', {
+            'npm_config_enable_fonts': 'true',
+            'npm_config_disable_fonts': 'true'
+          });
+        });
+      });
+    });
+  });
+
   describe('LiquidJS npm option tags', () => {
 
     describe('unlessNpmOption', () => {

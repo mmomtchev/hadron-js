@@ -18,7 +18,9 @@
     "argsConanInstall": "",
     "configNative": "{% ifNpmOption standalone_build %}native-xpack{% endifNpmOption %}{% unlessNpmOption standalone_build %}native{% endunlessNpmOption %}",
     "cwd": "{{ path.sep | path_relative: '.' }}",
-    "verbose": "{% ifNpmOption loglevel %}--verbose{% endifNpmOption %}"
+    "verbose": "{% ifNpmOption loglevel %}--verbose{% endifNpmOption %}",
+    "scriptInstallNative": "npx prebuild-install -d {{ properties.verbose }} || ( npx xpm install && npx xpm install --config {{ properties.configNative }} && xpm run prepare --config {{ properties.configNative }} && xpm run build --config {{ properties.configNative }} )",
+    "scriptInstallWASM": "npx prebuild-install --platform emscripten --arch wasm32 -d {{ properties.verbose }} || ( npx xpm install && xpm run prepare --config wasm && xpm run build --config wasm )"
   },
   "devDependencies": {
     "@mmomtchev/python-xpack": "3.12.11-2",
