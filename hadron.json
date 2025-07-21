@@ -3,6 +3,6 @@
     "@mmomtchev/hadron"
   ],
   "include": [
-    "./profiles/{{ properties.hadronProfile }}/hadron.json"
+    "./hadron/hadron.json"
   ]
 }

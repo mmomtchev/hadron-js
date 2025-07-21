@@ -1,7 +1,6 @@
 {
   "properties": {
-    "configNative": "{% ifNpmOption standalone_build %}native-xpack{% endifNpmOption %}{% unlessNpmOption standalone_build %}native{% endunlessNpmOption %}",
-    "scriptBuildNative": "npx xpm install && npx xpm install --config {{ properties.configNative }} && npx xpm run prepare --config {{ properties.configNative }} && npx xpm run build --config {{ properties.configNative }}",
+    "scriptBuildNative": "npx xpm install && npx xpm install --config native && npx xpm run prepare --config native && npx xpm run build --config native",
     "scriptInstallNative": "npx prebuild-install -d {{ properties.verbose }} || ( {{ properties.scriptBuildNative }} )"
   },
   "buildConfigurations": {

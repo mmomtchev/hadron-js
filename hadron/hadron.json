@@ -1,10 +1,10 @@
   {
     "include": [
-      "../common.json",
-      "../conan.json",
-      "../meson.json",
-      "../native.json",
-      "../wasm.json"
+      "./common.json",
+      "{% if properties.conan %}./conan.json{% endif %}",
+      "./meson.json",
+      "{% if properties.native %}{% if properties.selfContained %}./native-xpack.json{% else %}./native.json{% endif %}{% endif %}",
+      "{% if properties.wasm %}./wasm.json{% endif %}"
     ],
     "properties": {
       "commandPrepare": "{{ properties.commandConanBuildEnv[os.platform] }} meson setup --backend ninja --buildtype {{ properties.buildType }} {{ properties.buildFolderRelativePath }} . -Dprefix={{ properties.installFolderPath }} {{ properties.argsMesonPrepare }} {% mesonOptions %}",

@@ -3,13 +3,17 @@
   "xpack": {
     "minimumXpmRequired": "0.20.0",
     "include": [
-      "../../../profiles/conan+meson-dual-async/hadron.json"
+      "../../../hadron/hadron.json"
     ],
     "liquidPlugins": [
       "../../../dist/index.js"
     ],
     "properties": {
-      "module_name": "conan+meson-dual-async"
+      "module_name": "conan+meson-dual-async",
+      "async": true,
+      "native": true,
+      "wasm": true,
+      "conan": true
     },
     "actions": {
       "showMesonOptions": "node -p \"JSON.stringify(process.argv)\" -- {% mesonOptions %}",
