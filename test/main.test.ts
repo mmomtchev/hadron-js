@@ -37,20 +37,20 @@ function runXpmJSON(dir: string, cmd: string, env?: Record<string, string>) {
   return args;
 }
 
-describe('magickwand.js', () => {
+describe('conan+meson-dual-async', () => {
   before('install xpacks / initialize conan profile', function () {
     this.timeout(240000);
     cp.spawnSync(npx,
       ['xpm', 'install', '-q'],
-      { cwd: path.resolve(fixtures, 'magickwand.js'), shell: true });
+      { cwd: path.resolve(fixtures, 'conan+meson-dual-async'), shell: true });
     cp.spawnSync(npx,
       ['xpm', 'run', '-q', 'conan'],
-      { cwd: path.resolve(fixtures, 'magickwand.js'), shell: true });
+      { cwd: path.resolve(fixtures, 'conan+meson-dual-async'), shell: true });
   });
 
   describe('meson options', () => {
     it('global options', () => {
-      const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
+      const r = runXpmJSON('conan+meson-dual-async', 'showMesonOptions', {
         'npm_config_enable_fonts': 'true',
         'npm_config_disable_png': 'true',
         'npm_config_enable_jpeg': '',
@@ -63,11 +63,11 @@ describe('magickwand.js', () => {
       ]);
     });
     it('package options', () => {
-      const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
-        'npm_config_magickwand_js_enable_fonts': 'true',
-        'npm_config_magickwand_js_disable_png': 'true',
-        'npm_config_magickwand_js_enable_jpeg': '',
-        'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
+      const r = runXpmJSON('conan+meson-dual-async', 'showMesonOptions', {
+        'npm_config_cmda_enable_fonts': 'true',
+        'npm_config_cmda_disable_png': 'true',
+        'npm_config_cmda_enable_jpeg': '',
+        'npm_config_cmda_c_args': '-O0 -DDEBUG'
       });
       assert.sameMembers(r, [
         '-Dc_args=-O0 -DDEBUG',
@@ -76,15 +76,15 @@ describe('magickwand.js', () => {
       ]);
     });
     it('package overrides', () => {
-      const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
+      const r = runXpmJSON('conan+meson-dual-async', 'showMesonOptions', {
         'npm_config_disable_fonts': 'true',
         'npm_config_enable_png': 'true',
         'npm_config_disable_jpeg': 'true',
         'npm_config_c_args': '-O2 -DNDEBUG',
-        'npm_config_magickwand_js_enable_fonts': 'true',
-        'npm_config_magickwand_js_disable_png': 'true',
-        'npm_config_magickwand_js_enable_jpeg': 'true',
-        'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
+        'npm_config_cmda_enable_fonts': 'true',
+        'npm_config_cmda_disable_png': 'true',
+        'npm_config_cmda_enable_jpeg': 'true',
+        'npm_config_cmda_c_args': '-O0 -DDEBUG'
       });
       assert.sameMembers(r, [
         '-Dc_args=-O0 -DDEBUG',
@@ -94,7 +94,7 @@ describe('magickwand.js', () => {
       ]);
     });
     it('meson overrides', () => {
-      const r = runXpmJSON('magickwand.js', 'showMesonOptions', {
+      const r = runXpmJSON('conan+meson-dual-async', 'showMesonOptions', {
         'npm_config_disable_fonts': 'true',
         'npm_config_enable_fonts_meson': 'true'
       });
@@ -102,7 +102,7 @@ describe('magickwand.js', () => {
     });
     it('conflicts', () => {
       assert.throws(() => {
-        runXpmJSON('magickwand.js', 'showMesonOptions', {
+        runXpmJSON('conan+meson-dual-async', 'showMesonOptions', {
           'npm_config_enable_fonts': 'true',
           'npm_config_disable_fonts': 'true'
         });
@@ -112,7 +112,7 @@ describe('magickwand.js', () => {
 
   describe('conan options', () => {
     it('global options', () => {
-      const r = runXpmJSON('magickwand.js', 'showConanOptions', {
+      const r = runXpmJSON('conan+meson-dual-async', 'showConanOptions', {
         'npm_config_enable_fonts': 'true',
         'npm_config_disable_png': 'true',
         'npm_config_enable_jpeg': '',
@@ -125,11 +125,11 @@ describe('magickwand.js', () => {
       ]);
     });
     it('package options', () => {
-      const r = runXpmJSON('magickwand.js', 'showConanOptions', {
-        'npm_config_magickwand_js_enable_fonts': 'true',
-        'npm_config_magickwand_js_disable_png': 'true',
-        'npm_config_magickwand_js_enable_jpeg': '',
-        'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
+      const r = runXpmJSON('conan+meson-dual-async', 'showConanOptions', {
+        'npm_config_cmda_enable_fonts': 'true',
+        'npm_config_cmda_disable_png': 'true',
+        'npm_config_cmda_enable_jpeg': '',
+        'npm_config_cmda_c_args': '-O0 -DDEBUG'
       });
       assert.sameOrderedMembers(r, [
         '-o', 'fonts=True',
@@ -138,15 +138,15 @@ describe('magickwand.js', () => {
       ]);
     });
     it('package overrides', () => {
-      const r = runXpmJSON('magickwand.js', 'showConanOptions', {
+      const r = runXpmJSON('conan+meson-dual-async', 'showConanOptions', {
         'npm_config_disable_fonts': 'true',
         'npm_config_enable_png': 'true',
         'npm_config_disable_jpeg': 'true',
         'npm_config_c_args': '-O2 -DNDEBUG',
-        'npm_config_magickwand_js_enable_fonts': 'true',
-        'npm_config_magickwand_js_disable_png': 'true',
-        'npm_config_magickwand_js_enable_jpeg': 'true',
-        'npm_config_magickwand_js_c_args': '-O0 -DDEBUG'
+        'npm_config_cmda_enable_fonts': 'true',
+        'npm_config_cmda_disable_png': 'true',
+        'npm_config_cmda_enable_jpeg': 'true',
+        'npm_config_cmda_c_args': '-O0 -DDEBUG'
       });
       assert.sameOrderedMembers(r, [
         '-o', 'fonts=True',
@@ -156,7 +156,7 @@ describe('magickwand.js', () => {
       ]);
     });
     it('conan overrides', () => {
-      const r = runXpmJSON('magickwand.js', 'showConanOptions', {
+      const r = runXpmJSON('conan+meson-dual-async', 'showConanOptions', {
         'npm_config_enable_fonts': 'true',
         'npm_config_disable_fonts_conan': 'true'
       });
@@ -164,7 +164,7 @@ describe('magickwand.js', () => {
     });
     it('conflicts', () => {
       assert.throws(() => {
-        runXpmJSON('magickwand.js', 'showConanOptions', {
+        runXpmJSON('conan+meson-dual-async', 'showConanOptions', {
           'npm_config_enable_fonts': 'true',
           'npm_config_disable_fonts': 'true'
         });
@@ -176,25 +176,25 @@ describe('magickwand.js', () => {
 
     describe('unlessNpmOption', () => {
       it('unlessSkipNative default', () => {
-        const r = runXpm('magickwand.js', 'unlessSkipNative');
+        const r = runXpm('conan+meson-dual-async', 'unlessSkipNative');
         assert.strictEqual(r, 'triggered');
       });
       it('unlessSkipNative global disable', () => {
-        const r = runXpm('magickwand.js', 'unlessSkipNative', {
+        const r = runXpm('conan+meson-dual-async', 'unlessSkipNative', {
           'npm_config_skip_native': 'true'
         });
         assert.strictEqual(r, '');
       });
       it('unlessSkipNative package disable', () => {
-        const r = runXpm('magickwand.js', 'unlessSkipNative', {
-          'npm_config_magickwand_js_skip_native': 'true'
+        const r = runXpm('conan+meson-dual-async', 'unlessSkipNative', {
+          'npm_config_cmda_skip_native': 'true'
         });
         assert.strictEqual(r, '');
       });
       it('unlessSkipNative override disable', () => {
-        const r = runXpm('magickwand.js', 'unlessSkipNative', {
+        const r = runXpm('conan+meson-dual-async', 'unlessSkipNative', {
           'npm_config_skip_native': '',
-          'npm_config_magickwand_js_skip_native': 'true'
+          'npm_config_cmda_skip_native': 'true'
         });
         assert.strictEqual(r, '');
       });
@@ -202,11 +202,11 @@ describe('magickwand.js', () => {
 
     describe('ifSkipWasm', () => {
       it('ifSkipWasm default', () => {
-        const r = runXpm('magickwand.js', 'ifSkipWasm');
+        const r = runXpm('conan+meson-dual-async', 'ifSkipWasm');
         assert.strictEqual(r, '');
       });
       it('ifSkipWasm force', () => {
-        const r = runXpm('magickwand.js', 'ifSkipWasm', {
+        const r = runXpm('conan+meson-dual-async', 'ifSkipWasm', {
           'npm_config_skip_wasm': 'true'
         });
         assert.strictEqual(r, 'triggered');
@@ -215,8 +215,8 @@ describe('magickwand.js', () => {
   });
 
   describe('LiquidJS profile directories tags', () => {
-    it('showMesonProfile', () => {
-      const r = runXpm('magickwand.js', 'showMesonProfile');
+    it('showConanProfile', () => {
+      const r = runXpm('conan+meson-dual-async', 'showConanProfile');
       assert.isString(r);
     });
   });

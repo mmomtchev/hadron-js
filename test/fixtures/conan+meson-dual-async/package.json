@@ -1,0 +1,22 @@
+{
+  "name": "cmda",
+  "xpack": {
+    "minimumXpmRequired": "0.20.0",
+    "include": [
+      "../../../profiles/conan+meson-dual-async/hadron.json"
+    ],
+    "liquidPlugins": [
+      "../../../dist/index.js"
+    ],
+    "properties": {
+      "module_name": "conan+meson-dual-async"
+    },
+    "actions": {
+      "showMesonOptions": "node -p \"JSON.stringify(process.argv)\" -- {% mesonOptions %}",
+      "showConanOptions": "node -p \"JSON.stringify(process.argv)\" -- {% conanOptions %}",
+      "unlessSkipNative": "{% unlessNpmOption skip_native %}echo triggered{% endunlessNpmOption %}",
+      "ifSkipWasm": "{% ifNpmOption skip_wasm %}echo triggered{% endifNpmOption %}",
+      "showConanProfile": "{{ properties.commandCat[os.platform] }} {% hadronProfilesPath %}{{ path.sep }}conan+meson-dual-async{{ path.sep }}system-{{ os.platform }}.profile"
+    }
+  }
+}

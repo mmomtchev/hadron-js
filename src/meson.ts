@@ -1,11 +1,6 @@
 import * as cp from 'node:child_process';
-import * as os from 'node:os';
-import * as path from 'node:path';
 
 import assert from 'node:assert';
-
-import { Tag, TagToken, TopLevelToken, Liquid, Template, Context, Emitter } from 'liquidjs';
-import { Parser } from 'liquidjs/dist/parser'; 
 
 import { MesonOption, Environment, OptionVal, getNpmOption, quote } from './util.js';
 
@@ -78,26 +73,4 @@ export function parseMesonOptions(pkgName: string, env: Environment, mesonOption
   }
 
   return result;
-}
-
-export class MesonProfile extends Tag {
-  toolchain: string;
-  flavor: string;
-  platform: string;
-
-  constructor(tagToken: TagToken, remainTokens: TopLevelToken[], liquid: Liquid, parser: Parser) {
-    super(tagToken, remainTokens, liquid);
-    this.toolchain = '';
-    parser.parseStream(remainTokens)
-      .on('start', () => {
-        this.toolchain = tagToken.tokenizer.readIdentifier().getText() || 'system';
-        this.flavor = tagToken.tokenizer.readIdentifier().getText() || 'async';
-        this.platform = tagToken.tokenizer.readIdentifier().getText() || os.platform();
-      })
-      .start();
-  }
-
-  * render(context: Context, emitter: Emitter) {
-    return path.resolve(__dirname, '..', 'meson', `${this.toolchain}-${this.platform}.ini`);
-  }
 }
