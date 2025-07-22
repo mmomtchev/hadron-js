@@ -5,7 +5,6 @@
     "wasm": true,
     "async": true,
     "conan": true,
-    "selfContained": false,
     "hadronProfilesPath": "{% hadronProfilesPath %}",
     "buildFolderRelativePath": "{{ 'build' | path_join: configuration.name | to_filename | downcase }}",
     "installFolderPath": "{{ '/' | path_join: properties.cwd | path_join: 'lib' | path_join: 'binding' | path_join: properties.platformId }}",
