@@ -3,7 +3,7 @@
       "./common.json",
       "{% if properties.conan %}./conan.json{% endif %}",
       "./meson.json",
-      "{% if properties.native %}{% ifNpmOption standalone_build %}./native-xpack.json{% endifNpmOption %}{% endif %}",
+      "{% if properties.native %}{% ifNpmOption standalone_build %}./native-standalone.json{% endifNpmOption %}{% endif %}",
       "{% if properties.native %}{% unlessNpmOption standalone_build %}./native.json{% endunlessNpmOption %}{% endif %}",
       "{% if properties.wasm %}./wasm.json{% endif %}"
     ],
