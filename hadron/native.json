@@ -1,6 +1,6 @@
 {
   "properties": {
-    "scriptBuildNative": "npx xpm install && npx xpm install --config native && npx xpm run prepare --config native && npx xpm run build --config native",
+    "scriptBuildNative": "npx xpm install && npx xpm install --config native && npx xpm run prepare --config native && npx xpm run build --config native && npx xpm run clean --config native",
     "scriptInstallNative": "npx prebuild-install -d {{ properties.verbose }} || ( {{ properties.scriptBuildNative }} )"
   },
   "buildConfigurations": {

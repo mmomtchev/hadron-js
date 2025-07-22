@@ -18,6 +18,9 @@
         "commandConanLock": "conan lock create . {{ properties.argsConanShared }}",
         "commandConanLockNative": "{{ properties.commandConanLock }} {{ properties.argsConanNative }}",
         "commandConanLockWASM": "{{ properties.commandConanLock }} {{ properties.argsConanWASM }}",
+        "commandClean": [
+          "conan cache clean"
+        ],
         "showConanOptions": "echo \"{% conanOptions %}\""
       },
       "actions": {

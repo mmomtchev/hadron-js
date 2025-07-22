@@ -13,7 +13,9 @@
         "commandConfigure": "meson configure {{ properties.buildFolderRelativePath }}",
         "commandBuild": "meson compile -C {{ properties.buildFolderRelativePath }} -v",
         "commandInstall": "meson install -C {{ properties.buildFolderRelativePath }}",
-        "commandClean": "meson compile -C {{ properties.buildFolderRelativePath }} --clean"
+        "commandClean": [
+          "meson compile -C {{ properties.buildFolderRelativePath }} --clean"
+        ]
       },
       "actions": {
         "meson": "meson"
