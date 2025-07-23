@@ -213,9 +213,18 @@ Launching `npm install` with `--verbose` and `--foreground-scripts` will show yo
 When working the project locally, you can use:
 
  * `npx xpm install && npx xpm install --config native|wasm|native-debug|wasm-debug` to install/update the required xpacks
- * `npx xpm run prepare --config native|wasm|native-debug|wasm-debug` to populate the conan dependencies and run the configure step of your project
+ * `npx xpm run prepare --config native|wasm|native-debug|wasm-debug` to populate the `conan` dependencies and run the configure step of your project
  * `npx xpm run build --config native|wasm|native-debug|wasm-debug` to build the project
  * `npx xpm run configure --config native|wasm|native-debug|wasm-debug -- -Doptimizations=1` to run the `meson` `configure` step for modifying build options on a configured project
- * `npx xpm run conan -- version` to invoke `conan` commands
+ * `npx xpm run conan -- version` to directly invoke `conan` commands
+ * `npx xpm run lock --config native|wasm|native-debug|wasm-debug` to lock the `conan` dependencies for the current configuration
+ * `npx xpm run clean [--config native|wasm|native-debug|wasm-debug]` to clean the build directory as well as all the `conan` build trees
 
- Do not forget that the integrated `meson` and `conan` come from xPacks and are purposely made to not interfere with existing `meson` and `conan` installations and will likely be different versions.
+When you invoke `xpm` directly the `npm` options must be passed in the form of `npm_config_*` environment variables:
+
+ ```bash
+npm_config_enable_standalone_build=true npx xpm run prepare --config native-debug
+npm_config_enable_standalone_build=true npx xpm run build --config native-debug
+```
+
+Do not forget that the integrated `meson` and `conan` come from xPacks and are purposely made to not interfere with existing `meson` and `conan` installations and will likely be different versions.
