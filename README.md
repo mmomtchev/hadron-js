@@ -122,6 +122,29 @@ The `hadron` collection of `xpm` actions recognizes a number of special properti
 * `async` for enabling async support, the resulting WASM build will require [COOP/COEP](https://web.dev/articles/coop-coep)
 * `conan` for enabling the conan integration
 
+Additionally, the following options can be both in the `xpack` section to be applied globally or in a specific build configuration:
+
+* `argsConanInstall` for passing custom arguments to `conan install`
+* `argsMesonPrepare` for passing custom arguments to `meson setup`
+* `argsMesonCompile` for passing custom arguments to `meson compile`
+
+For example the following `package.json` elements specify a `conan.profile` to be passed to all build configurations and to produce a WASM size optimized build even in debug configuration:
+
+```json
+{
+  "properties": {
+    "argsConanInstall": "-pr:b=conan.profile -pr:h=conan.profile"
+  },
+  "buildConfigurations": {
+    "wasm-debug": {
+      "properties": {
+        "argsMesonPrepare": "-Doptimization=1"
+      }
+    }
+  }
+}
+```
+
 # `npm install` options support
 
 Parsing of the `npm install` options is automatic. All `hadron`-based packages recognize a number of universal options. When handling options, underscores and dashes are considered identical. Every option has a global notation, valid for all installed `hadron`-based packages or a package-specific option valid only for the named package. Options can also be specified in the `.npmrc` file to be automatically picked up by the default `npm install` invocation.
@@ -145,7 +168,6 @@ For example, if `meson.options` contains:
 ```python
 option('jpeg', type: 'boolean', value: true, description: 'JPEG support')
 option('name', type: 'string', value: 'first great project', description: 'Package name')
-
 ```
 
 then `hadron` will recognize `--enable-jpeg` and `--disable-jpeg` and `--name="second project"` and their package specific variants.
