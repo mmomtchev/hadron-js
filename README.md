@@ -228,6 +228,10 @@ You will need to include a distribution point in the `package.json`:
 
 Then after building in CI for each platform, you will simply have to create a `.tar.gz` archive of the `./lib/binding` directory and upload it to the above specified URL.
 
+# Standalone builds (building w/o C++ environment on the target host)
+
+Be sure to read the `README.xPacks.md` which details the experience of making this build work for the `magickwand.js` project.
+
 # Use in development and troubleshooting
 
 Launching `npm install` with `--verbose` and `--foreground-scripts` will show you the verbose output of the build process.
