@@ -1,5 +1,5 @@
 {
-  "name": "mda",
+  "name": "@mmomtchev/mda",
   "xpack": {
     "minimumXpmRequired": "0.20.0",
     "include": [

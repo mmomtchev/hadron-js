@@ -35,8 +35,8 @@ export const optionEquivalence: Record<NpmContext, string>[] = [
  * Returns true, false, a string or undefined
  */
 function getRawNpmOption(pkgName: string, env: Environment, name: string): OptionVal {
-  const envName = name.replace(/[^a-zA-Z0-9]/, '_');
-  pkgName = pkgName.replace(/[^a-zA-Z0-9]/, '_');
+  const envName = name.replace(/^@/, '').replace(/[^a-zA-Z0-9]/g, '_');
+  pkgName = pkgName.replace(/^@/, '').replace(/[^a-zA-Z0-9]/g, '_');
   const enable = !!env[`npm_config_${pkgName ? `${pkgName}_` : ''}enable_${envName}`];
   const disable = !!env[`npm_config_${pkgName ? `${pkgName}_` : ''}disable_${envName}`];
   const string = env[`npm_config_${pkgName ? `${pkgName}_` : ''}${envName}`];

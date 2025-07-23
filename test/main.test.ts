@@ -199,10 +199,10 @@ describe('conan+meson-dual-async', () => {
       });
       it('package options', () => {
         const r = runXpmJSON('meson-dual-async', 'showMesonOptions', {
-          'npm_config_mda_enable_fonts': 'true',
-          'npm_config_mda_disable_png': 'true',
-          'npm_config_mda_enable_jpeg': '',
-          'npm_config_mda_c_args': '-O0 -DDEBUG'
+          'npm_config_mmomtchev_mda_enable_fonts': 'true',
+          'npm_config_mmomtchev_mda_disable_png': 'true',
+          'npm_config_mmomtchev_mda_enable_jpeg': '',
+          'npm_config_mmomtchev_mda_c_args': '-O0 -DDEBUG'
         });
         assert.sameMembers(r, [
           '-Dc_args=-O0 -DDEBUG',
@@ -216,10 +216,10 @@ describe('conan+meson-dual-async', () => {
           'npm_config_enable_png': 'true',
           'npm_config_disable_jpeg': 'true',
           'npm_config_c_args': '-O2 -DNDEBUG',
-          'npm_config_mda_enable_fonts': 'true',
-          'npm_config_mda_disable_png': 'true',
-          'npm_config_mda_enable_jpeg': 'true',
-          'npm_config_mda_c_args': '-O0 -DDEBUG'
+          'npm_config_mmomtchev_mda_enable_fonts': 'true',
+          'npm_config_mmomtchev_mda_disable_png': 'true',
+          'npm_config_mmomtchev_mda_enable_jpeg': 'true',
+          'npm_config_mmomtchev_mda_c_args': '-O0 -DDEBUG'
         });
         assert.sameMembers(r, [
           '-Dc_args=-O0 -DDEBUG',
