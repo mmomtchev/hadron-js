@@ -2,6 +2,11 @@
   "properties": {
     "scriptInstallNative": "npx prebuild-install -d {{ properties.verbose }} || npx xpm run make --config native"
   },
+  "actions": {
+    "npm-install": [
+      "{% unlessNpmOption skip_native %}{{ properties.scriptInstallNative }}{% endunlessNpmOption %}"
+    ]
+  },
   "buildConfigurations": {
     "native": {
       "properties": {

@@ -26,9 +26,7 @@
   },
   "actions": {
     "npm-install": [
-      "{% ifNpmOption loglevel %}{{ properties.commandShowEnv[os.platform] }}{% endifNpmOption %}",
-      "{% unlessNpmOption skip_native %}{{ properties.scriptInstallNative }}{% endunlessNpmOption %}",
-      "{% unlessNpmOption skip_wasm %}{{ properties.scriptInstallWASM }}{% endunlessNpmOption %}"
+      "{% ifNpmOption loglevel %}{{ properties.commandShowEnv[os.platform] }}{% endifNpmOption %}"
     ],
     "python": "python",
     "env": "{{ properties.commandShowEnv[os.platform] }}"

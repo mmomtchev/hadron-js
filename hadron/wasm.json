@@ -2,6 +2,11 @@
   "properties": {
     "scriptInstallWASM": "npx prebuild-install --platform emscripten --arch wasm32 -d {{ properties.verbose }} || npx xpm run make --config wasm"
   },
+  "actions": {
+    "npm-install": [
+      "{% unlessNpmOption skip_wasm %}{{ properties.scriptInstallWASM }}{% endunlessNpmOption %}"
+    ]
+  },
   "buildConfigurations": {
     "wasm": {
       "inherit": [
