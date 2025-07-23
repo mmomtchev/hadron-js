@@ -129,6 +129,7 @@ Parsing of the `npm install` options is automatic. All `hadron`-based packages r
 * `--build-from-source` or `--first_great_cpp_project_build_from_source`: rebuild the native module even if there are prebuilt binaries for the current platform
 * `--build-wasm-froum-source` or `--first_great_cpp_project_build_wasm_from_source`: rebuild the WASM module even if there is a prebuilt binary, must have `emscripten` installed and activated
 * `--enable-standalone-build` or `--first_great_cpp_project_enable_standalone_build`: use the `hadron`-provided integrated `clang` compiler to build the project - which should work even if the target host does not have a C++ environment installed
+* `--skip-native` / `--first_great_cpp_project_skip_native` and `--skip-wasm` / `--first_great_cpp_project_skip_wasm` allow to skip installing the native or the WASM module - these are most useful in CI where the package will be rebuilt manually
 
 Specifying in `.npmrc` looks like this:
 ```ini
@@ -211,10 +212,10 @@ Launching `npm install` with `--verbose` and `--foreground-scripts` will show yo
 
 When working the project locally, you can use:
 
+ * `npx xpm install && npx xpm install --config native|wasm|native-debug|wasm-debug` to install/update the required xpacks
  * `npx xpm run prepare --config native|wasm|native-debug|wasm-debug` to populate the conan dependencies and run the configure step of your project
  * `npx xpm run build --config native|wasm|native-debug|wasm-debug` to build the project
  * `npx xpm run configure --config native|wasm|native-debug|wasm-debug -- -Doptimizations=1` to run the `meson` `configure` step for modifying build options on a configured project
  * `npx xpm run conan -- version` to invoke `conan` commands
 
  Do not forget that the integrated `meson` and `conan` come from xPacks and are purposely made to not interfere with existing `meson` and `conan` installations and will likely be different versions.
- 
