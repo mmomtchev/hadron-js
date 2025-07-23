@@ -197,7 +197,7 @@ When extending or overriding the existing `xpm` scripts, `npm` options can be us
 
 ```json
 {
-  "cmd": "{% ifNpmOption loglevel %}echo Will produce debugging output{% endifNpmOption %}",
+  "cmd": "{% ifNpmOption loglevel %}echo Verbose output{% endifNpmOption %}"
 }
 ```
 
@@ -213,11 +213,11 @@ You will need to include a distribution point in the `package.json`:
     "module_name": "first_great_project",
     "module_path": "./lib/binding/{platform}-{arch}",
     "remote_path": "v{version}",
-    "host": "https://github.com/first-great-developer/first_great_project/releases/download/",
+    "host": "https://github.com/great-developer/first_great_project/releases/download/",
     "package_name": "{platform}-{arch}.tar.gz",
     "hosting": {
       "provider": "github",
-      "repo": "first-great-developer/first_great_project"
+      "repo": "great-developer/first_great_project"
     },
     "napi_versions": [
       6
