@@ -37,17 +37,34 @@ Paradoxically, Linux, is the last system on which `LLVM/clang` is not fully self
 
 As an alternative to requiring all those dependencies - except the certificate - the existing `gcc` xPack can be included.
 
-For `autotools`-based projects, GNU Make will also have to be included - which this project selectively applies in its `conan` profiles. Or it can be expected to be already present on the target system.
+For `autotools`-based projects, GNU Make will also have to be included - which `hadron` selectively applies in its `conan` profiles for some `conan` packages.
+
+Or you can expect GNU Make to be already present on the target system.
 
 ## macOS
 
 On macOS things tend to be pretty smooth as this is the system where the built-in compiler is the one that is the most similar - however note that Apple `clang` is not exactly the same as `LLVM/clang` of which it is a fork. Currently, the only Homebrew package that is required is:
 * `openssl` - For the same reasons as Linux. Recent macOS versions come with a built-in Apple-modified `LibreSSL` that has its own root SSL certificates. Maybe these can be used with some custom code.
 
-For `autotools`-based projects, GNU Make will also have to be included - which this project selectively applies in its `conan` profiles. Or it can be expected to be already present on the target system.
+For `autotools`-based projects, GNU Make will also have to be included - which `hadron` selectively applies in its `conan` profiles for some `conan` packages.
+
+Or you can expect GNU Make to be already present on the target system.
 
 ## Windows
 
-Windows remains the least used `clang` platform - and the one where `clang` is the most different from the vendor's default compiler. However in 2024, Microsoft is now distributing it along the latest Visual Studio and they have made great efforts towards fully integrating it. It can even build against `MSVC`'s own C++ library - producing fully native binaries - however this is of no interest to `hadron` since this runtime is not freely redistributable. `hadron` uses `libc++` for C++. The low-level C runtime used is the older, but widely available on every Windows installation, `crt.lib` that does not require from the user to install anything.
+Windows remains the least used `clang` platform - and the one where `clang` is the most different from the vendor's default compiler. However since 2024, Microsoft is distributing it along the latest Visual Studio and they have made great efforts towards fully integrating it. It can even build against `MSVC`'s own C++ library - producing fully native binaries - however this is of no interest to `hadron` since this runtime is not freely redistributable. `hadron` uses `libc++` for C++. The low-level C runtime used is the older, but widely available on every Windows installation, `crt.lib` that does not require from the user to install anything.
 
 The worst problems on Windows are usually the `autotools`-based projects. `MSYS2` offers a very good fully integrated environment for these, but some `conan` recipes expect that the compiler is also `MSYS2` compatible. A possible alternative would be using a native `bash` with a native GNU Make, but this will require manual handling of the Windows-style paths.
+
+# Extending the `hadron` `conan` profiles
+
+The `hadron` tries to provide `conan` profiles that work according to what has been learned from the existing projects. If you use different libraries, you will probably have to add more packages.
+
+In order to do this, create a `hadron` profiles subdirectory in your project, containing `clang-darwin.profile`, `clang-linux.profile` and `clang-win32.profile`, then use the `argsConanInstall` property:
+
+```json
+{
+  "profileConanStandaloneBuild": "hadron{{ path.sep }}{{ properties.toolchain }}-{{ os.platform }}.profile",
+  "argsConanInstall": "{% ifNpmOption standalone_build %}-pr:a={{ profileConanStandaloneBuild }}{% endifNpmOption %}"
+}
+```
