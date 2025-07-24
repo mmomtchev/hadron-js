@@ -285,6 +285,16 @@ describe('conan+meson-dual-async', () => {
         });
         assert.strictEqual(r, 'triggered');
       });
+      it('ifSkipWasm scoped', () => {
+        const r = runXpm('meson-dual-async', 'ifSkipWasm');
+        assert.strictEqual(r, '');
+      });
+      it('ifSkipWasm scoped forced', () => {
+        const r = runXpm('meson-dual-async', 'ifSkipWasm', {
+          'npm_config_mmomtchev_mda_skip_wasm': 'true'
+        });
+        assert.strictEqual(r, 'triggered');
+      });
     });
   });
 
