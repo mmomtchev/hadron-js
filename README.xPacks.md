@@ -65,6 +65,6 @@ In order to do this, create a `hadron` profiles subdirectory in your project, co
 ```json
 {
   "profileConanStandaloneBuild": "hadron{{ path.sep }}{{ properties.toolchain }}-{{ os.platform }}.profile",
-  "argsConanInstall": "{% ifNpmOption standalone_build %}-pr:a={{ profileConanStandaloneBuild }}{% endifNpmOption %}"
+  "argsConanInstall": "{% ifNpmOption standalone_build %}-pr:a={{ properties.profileConanStandaloneBuild }}{% endifNpmOption %}"
 }
 ```
