@@ -6,6 +6,6 @@
     "ts"
   ],
   "require": [
-    "ts-node/register"
+    "tsx"
   ]
 }
