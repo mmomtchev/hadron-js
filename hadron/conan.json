@@ -5,7 +5,7 @@
       "properties": {
         "argsConanInstall": "",
         "commandConanBuildEnv": {
-          "win32": "{{ properties.buildFolderRelativePath }}\\conanbuild.bat && ",
+          "win32": "type {{ properties.buildFolderRelativePath }}\\conanbuild.bat && {{ properties.buildFolderRelativePath }}\\conanbuild.bat && ",
           "linux": ". {{ properties.buildFolderRelativePath }}/conanbuild.sh && ",
           "darwin": ". {{ properties.buildFolderRelativePath }}/conanbuild.sh && "
         },
