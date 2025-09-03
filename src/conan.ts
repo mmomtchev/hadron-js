@@ -1,10 +1,18 @@
 import * as cp from 'node:child_process';
+import * as fs from 'node:fs';
 import assert from 'node:assert';
 
 import { ConanOption, Environment, getNpmOption, optionEquivalence, OptionVal, quote } from './util.js';
 
 export function conanBuildOptions(path: string): ConanOption[] {
   let o, r;
+
+  try {
+    fs.statSync('conanfile.py');
+  } catch (e) {
+    console.info('No conanfile.py found, assuming no conan options available');
+    return [];
+  }
 
   try {
     o = cp.execSync('conan inspect -f json .', { env: { ...process.env, PATH: path } });
