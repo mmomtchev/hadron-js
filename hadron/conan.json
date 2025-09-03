@@ -5,7 +5,7 @@
       "properties": {
         "argsConanInstall": "",
         "commandConanBuildEnv": {
-          "win32": "type {{ properties.buildFolderRelativePath }}\\conanbuildenv-release-x86_64.bat && {{ properties.buildFolderRelativePath }}\\conanbuild.bat && ",
+          "win32": "type {{ properties.buildFolderRelativePath }}\\conanbuildenv-release-x86_64.bat && {{ properties.buildFolderRelativePath }}\\conanbuild.bat && echo conanbuildenv done && ",
           "linux": ". {{ properties.buildFolderRelativePath }}/conanbuild.sh && ",
           "darwin": ". {{ properties.buildFolderRelativePath }}/conanbuild.sh && "
         },
@@ -14,8 +14,8 @@
         "argsConanNative": "-pr:h={{ properties.hadronProfilesPath }}{{ path.sep }}{{ properties.toolchain }}-{{ os.platform }}.profile -pr:b={{ properties.hadronProfilesPath }}{{ path.sep }}{{ properties.toolchain }}-{{ os.platform }}.profile",
         "argsConanWASM": "-pr:b=default -pr:h={{ properties.hadronProfilesPath }}{{ path.sep }}{{ properties.toolchain }}-{{ properties.flavor }}.profile",
         "commandConanDependencies": "conan install . {{ properties.argsConanShared }} -of {{ properties.buildFolderRelativePath }} {% conanOptions %}",
-        "commandDependenciesNative": "{{ properties.commandConanDependencies }} {{ properties.argsConanNative }}",
-        "commandDependenciesWASM": "{{ properties.commandConanDependencies }} {{ properties.argsConanWASM }}",
+        "commandDependenciesNative": "{{ properties.commandConanDependencies }} {{ properties.argsConanNative }} && echo conan done",
+        "commandDependenciesWASM": "{{ properties.commandConanDependencies }} {{ properties.argsConanWASM }} && echo conan done",
         "commandConanLock": "conan lock create . {{ properties.argsConanShared }}",
         "commandConanLockNative": "{{ properties.commandConanLock }} {{ properties.argsConanNative }}",
         "commandConanLockWASM": "{{ properties.commandConanLock }} {{ properties.argsConanWASM }}",

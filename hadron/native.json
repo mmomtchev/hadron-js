@@ -16,7 +16,9 @@
       },
       "actions": {
         "prepare": [
+          "echo install deps",
           "{{ properties.commandDependenciesNative }}",
+          "echo meson setup",
           "{{ properties.commandPrepareNative }}"
         ],
         "configure": "{{ properties.commandConfigure }}",
