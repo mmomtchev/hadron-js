@@ -3,7 +3,7 @@
   "properties": {
     "native": true,
     "wasm": true,
-    "async": true,
+    "flavor": "async",
     "conan": true,
     "hadronProfilesPath": "{% hadronProfilesPath %}",
     "buildFolderRelativePath": "{{ 'build' | path_join: configuration.name | to_filename | downcase }}",

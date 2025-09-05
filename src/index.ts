@@ -20,7 +20,6 @@
  */
 
 import * as path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 import * as Liquid from 'liquidjs';
 
@@ -52,6 +51,7 @@ module.exports = function (this: Liquid.Liquid) {
   this.registerTag('ifNpmOption', IfNpmOption);
   this.registerTag('unlessNpmOption', IfNpmOption);
   this.registerTag('ifNpmOptionDisabled', IfNpmOption);
+  this.registerTag('ifWithSubst', IfNpmOption);
 
   this.registerTag('hadronProfilesPath', class HadronProfilesPath extends Liquid.Tag {
     render(context: Liquid.Context, emitter: Liquid.Emitter) {

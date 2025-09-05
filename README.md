@@ -87,7 +87,7 @@ npm i --save @mmomtchev/prebuild-install
       "module_name": "first_great_cpp_project",
       "native": true,
       "wasm": true,
-      "async": true,
+      "flavor": "async",
       "conan": true
     }
   }
@@ -119,7 +119,7 @@ The `hadron` collection of `xpm` actions recognizes a number of special properti
 
 * `native` for enabling a native build, currently must always be enabled
 * `wasm` for enabling a WASM build
-* `async` for enabling async support, the resulting WASM build will require [COOP/COEP](https://web.dev/articles/coop-coep)
+* `flavor` for enabling async support, the resulting WASM build will require [COOP/COEP](https://web.dev/articles/coop-coep), default is `"async"`, use `"sync"` for a WASM build that works without any HTTP configuration, 
 * `conan` for enabling the conan integration
 
 Additionally, the following options can be both in the `xpack` section to be applied globally or in a specific build configuration:
@@ -190,22 +190,6 @@ default_options = {
 ```
 
 `hadron` will pass the same way as it passes to `meson` any `--enable-jpeg` or `--disable-jpeg` flags. It will also pass any `--c_args` in the format expected by `conan`.
-
-## Conditional async
-
-The conditional async case is somewhat hackish at the moment since the `ifNpmOption` support in the `package.json` file is limited - as empty strings are evaluated to `true` - this will certainly evolve in a future version.
-
-The only way to do this at the moment is to directly modify the `emscripten` flavor property:
-
-```json
-"properties": {
-  "module_name": "conditional-async",
-  "flavor": "{% ifNpmOptionDisabled async %}sync{% else %}async{% endifNpmOptionDisabled %}",
-  "native": true,
-  "wasm": true,
-  "conan": true
-}
-```
 
 ## Customizing `npm` option behavior
 
