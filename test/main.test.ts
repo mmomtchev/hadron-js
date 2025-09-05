@@ -298,6 +298,25 @@ describe('conan+meson-dual-async', () => {
     });
   });
 
+  describe('conditional async', () => {
+    it('disable explicitly', () => {
+      const r = runXpm('conditional-async', 'showConanArgs', {
+        'npm_config_disable_async': 'true'
+      });
+      assert.include(r, 'emscripten-sync.profile');
+    });
+    it('enable explicitly', () => {
+      const r = runXpm('conditional-async', 'showConanArgs', {
+        'npm_config_enable_async': 'true'
+      });
+      assert.include(r, 'emscripten-async.profile');
+    });
+    it('default true', () => {
+      const r = runXpm('conditional-async', 'showConanArgs');
+      assert.include(r, 'emscripten-async.profile');
+    });
+  });
+
   describe('LiquidJS profile directories tags', () => {
     it('showConanProfile', () => {
       const r = runXpm('conan+meson-dual-async', 'showConanProfile');

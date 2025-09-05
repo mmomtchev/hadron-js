@@ -1,0 +1,25 @@
+{
+  "name": "@mmomtchev/mda",
+  "xpack": {
+    "minimumXpmRequired": "0.21.0",
+    "include": [
+      "../../../hadron/hadron.json"
+    ],
+    "liquidPlugins": [
+      "../../../dist/index.js"
+    ],
+    "properties": {
+      "module_name": "conditional-async",
+      "flavor": "{% ifNpmOptionDisabled async %}sync{% else %}async{% endifNpmOptionDisabled %}",
+      "native": true,
+      "wasm": true,
+      "conan": true,
+      "buildType": "release",
+      "toolchain": "emscripten",
+      "platformId": "emscripten-wasm32"
+    },
+    "actions": {
+      "showConanArgs": "echo \"{{ properties.argsConanWASM }}\""
+    }
+  }
+}

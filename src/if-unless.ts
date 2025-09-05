@@ -6,12 +6,16 @@ import { OptionVal, getNpmOption } from './util.js';
 export class IfNpmOption extends Tag {
   varName: string;
   templates: Template[];
+  elseTemplates: Template[];
   endToken: string;
   test: (val: OptionVal) => boolean;
 
   constructor(tagToken: TagToken, remainTokens: TopLevelToken[], liquid: Liquid, parser: Parser) {
     super(tagToken, remainTokens, liquid);
     this.templates = [];
+    this.elseTemplates = [];
+    let current = this.templates;
+
     switch (tagToken.name) {
       case 'unlessNpmOption':
         this.endToken = 'endunlessNpmOption';
@@ -21,6 +25,10 @@ export class IfNpmOption extends Tag {
         this.endToken = 'endifNpmOption';
         this.test = (val: OptionVal) => !!val;
         break;
+      case 'ifNpmOptionDisabled':
+        this.endToken = 'endifNpmOptionDisabled';
+        this.test = (val: OptionVal) => val === false;
+        break;
       default:
         throw new Error(`unsupported tag ${tagToken.getText()}`);
     }
@@ -29,10 +37,14 @@ export class IfNpmOption extends Tag {
         this.varName = tagToken.tokenizer.readFilteredValue().getText();
       })
       .on('template', (tpl: Template) => {
-        this.templates.push(tpl);
+        current.push(tpl);
       })
       .on(`tag:${this.endToken}`, function (token: TagToken) {
         this.stop();
+      })
+      .on<TagToken>('tag:else', (tag) => {
+        if (current == this.elseTemplates) throw new Error('duplicated else');
+        current = this.elseTemplates;
       })
       .on('end', () => {
         throw new Error(`tag ${tagToken.getText()} not closed`);
@@ -45,7 +57,7 @@ export class IfNpmOption extends Tag {
     const val = getNpmOption(pkgName,
       context.environments['env'], this.varName);
     yield this.liquid.renderer.renderTemplates(
-      this.test(val) ? this.templates : [],
+      this.test(val) ? this.templates : this.elseTemplates,
       context, emitter);
   }
 }
