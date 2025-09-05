@@ -9,7 +9,6 @@
           "linux": ". {{ properties.buildFolderRelativePath }}/conanbuild.sh && ",
           "darwin": ". {{ properties.buildFolderRelativePath }}/conanbuild.sh && "
         },
-        "flavor": "{% if properties.async %}async{% endif %}{% unless properties.async %}sync{% endunless %}",
         "argsConanShared": "--build=missing --settings=build_type={{ properties.buildType | capitalize }} {{ properties.argsConanInstall }} {% conanOptions %}",
         "argsConanNative": "-pr:h={{ properties.hadronProfilesPath }}{{ path.sep }}{{ properties.toolchain }}-{{ os.platform }}.profile -pr:b={{ properties.hadronProfilesPath }}{{ path.sep }}{{ properties.toolchain }}-{{ os.platform }}.profile",
         "argsConanWASM": "-pr:b=default -pr:h={{ properties.hadronProfilesPath }}{{ path.sep }}{{ properties.toolchain }}-{{ properties.flavor }}.profile",
