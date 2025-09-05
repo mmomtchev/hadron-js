@@ -201,6 +201,21 @@ When extending or overriding the existing `xpm` scripts, `npm` options can be us
 }
 ```
 
+When you use `hadron`, it will register three additional LiquidJS tags:
+
+* `ifNpmOption opt` which evaluates to true if (dashes and underscores are considered identical):
+  - Any of the environment variables `npm_config_opt`, `npm_config_enable_opt`, `npm_config_packagename_opt` or `npm_config_packagename_enable_opt` are set
+  - `npm install` is given `--enable-opt`, `--opt=xxx`, `--packagename-enable-opt`or `--packagename-opt=xxx`
+  - `opt`, `enable_opt`, `packagename_opt`, `packagename_enable_opt`,  is set in `.npmrc``
+
+* `unlessNpmOption opt` which evaluates to true when `ifNpmOption` evaluates to false
+* `ifNpmOptionDisabled` which evaluates to true when:
+  - Any of the environment variables `npm_config_disable_opt` or `npm_config_packagename_disable_opt` are set
+  - `npm install` is given `--disable-opt` or `--packagename-disnable-opt`or 
+  - `disable_opt` or `packagename_disable_opt` is set in `.npmrc`
+
+All three also accept an `else` tag for providing an alternate value but not an `elsif` tag as the builtin tags.
+
 # Prebuilt binaries
 
 Prebuilt binaries use `@mmomtchev/prebuild-install` which is a slightly modified and modernized version `prebuild-install` with support for WASM targets.
