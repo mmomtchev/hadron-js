@@ -51,6 +51,7 @@ module.exports = function (this: Liquid.Liquid) {
 
   this.registerTag('ifNpmOption', IfNpmOption);
   this.registerTag('unlessNpmOption', IfNpmOption);
+  this.registerTag('ifNpmOptionDisabled', IfNpmOption);
 
   this.registerTag('hadronProfilesPath', class HadronProfilesPath extends Liquid.Tag {
     render(context: Liquid.Context, emitter: Liquid.Emitter) {

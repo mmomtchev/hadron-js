@@ -311,9 +311,9 @@ describe('conan+meson-dual-async', () => {
       });
       assert.include(r, 'emscripten-async.profile');
     });
-    it('default false', () => {
+    it('default true', () => {
       const r = runXpm('conditional-async', 'showConanArgs');
-      assert.include(r, 'emscripten-sync.profile');
+      assert.include(r, 'emscripten-async.profile');
     });
   });
 

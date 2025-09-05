@@ -193,14 +193,14 @@ default_options = {
 
 ## Conditional async
 
-The conditional async case is somewhat hackish at the moment since the `ifNpmOption` support in the `package.json` file is limited - there is no way to set default options and empty strings are evaluated to `true` - this will certainly evolve in a future version.
+The conditional async case is somewhat hackish at the moment since the `ifNpmOption` support in the `package.json` file is limited - as empty strings are evaluated to `true` - this will certainly evolve in a future version.
 
 The only way to do this at the moment is to directly modify the `emscripten` flavor property:
 
 ```json
 "properties": {
   "module_name": "conditional-async",
-  "flavor": "{% ifNpmOption async %}async{% endifNpmOption %}{% unlessNpmOption async %}sync{% endunlessNpmOption %}",
+  "flavor": "{% unlessNpmOptionDisabled async %}async{% else %}sync{% endunlessNpmOptionDisabled %}",
   "native": true,
   "wasm": true,
   "conan": true

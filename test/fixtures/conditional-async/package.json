@@ -10,7 +10,7 @@
     ],
     "properties": {
       "module_name": "conditional-async",
-      "flavor": "{% ifNpmOption async %}async{% endifNpmOption %}{% unlessNpmOption async %}sync{% endunlessNpmOption %}",
+      "flavor": "{% ifNpmOptionDisabled async %}sync{% else %}async{% endifNpmOptionDisabled %}",
       "native": true,
       "wasm": true,
       "conan": true,
