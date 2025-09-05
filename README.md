@@ -200,7 +200,7 @@ The only way to do this at the moment is to directly modify the `emscripten` fla
 ```json
 "properties": {
   "module_name": "conditional-async",
-  "flavor": "{% unlessNpmOptionDisabled async %}async{% else %}sync{% endunlessNpmOptionDisabled %}",
+  "flavor": "{% ifNpmOptionDisabled async %}sync{% else %}async{% endifNpmOptionDisabled %}",
   "native": true,
   "wasm": true,
   "conan": true
