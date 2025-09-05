@@ -191,6 +191,22 @@ default_options = {
 
 `hadron` will pass the same way as it passes to `meson` any `--enable-jpeg` or `--disable-jpeg` flags. It will also pass any `--c_args` in the format expected by `conan`.
 
+## Conditional async
+
+The conditional async case is somewhat hackish at the moment since the `ifNpmOption` support in the `package.json` file is limited - there is no way to set default options and empty strings are evaluated to `true` - this will certainly evolve in a future version.
+
+The only way to do this at the moment is to directly modify the `emscripten` flavor property:
+
+```json
+"properties": {
+  "module_name": "conditional-async",
+  "flavor": "{% ifNpmOption async %}async{% endifNpmOption %}{% unlessNpmOption async %}sync{% endunlessNpmOption %}",
+  "native": true,
+  "wasm": true,
+  "conan": true
+}
+```
+
 ## Customizing `npm` option behavior
 
 When extending or overriding the existing `xpm` scripts, `npm` options can be used via the provided LiquidJS plugin:
