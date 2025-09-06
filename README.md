@@ -128,12 +128,14 @@ Additionally, the following options can be both in the `xpack` section to be app
 * `argsMesonPrepare` for passing custom arguments to `meson setup`
 * `argsMesonCompile` for passing custom arguments to `meson compile`
 
+There are four default build configurations: `native`, `native-debug`, `wasm` and `wasm-debug`. `native-debug` and `wasm` inherit from `native` and `wasm-debug` inherits from `wasm`. Adding options to a parent, automatically adds them to the inherited configurations.
+
 For example the following `package.json` elements specify a `conan.profile` to be passed to all build configurations and to produce a WASM size optimized build even in debug configuration:
 
 ```json
 {
   "properties": {
-    "argsConanInstall": "-pr:b=conan.profile -pr:h=conan.profile"
+    "argsConanInstall": "-pr:a=conan.profile"
   },
   "buildConfigurations": {
     "wasm-debug": {
@@ -144,6 +146,10 @@ For example the following `package.json` elements specify a `conan.profile` to b
   }
 }
 ```
+
+Existing string properties will be overwritten while existing array properties will be extended.
+
+The full list of properties can be found in the JSON files in the `hadron` subdirectory.
 
 # `npm install` options support
 
@@ -267,7 +273,7 @@ When working the project locally, you can use:
  * `npx xpm run meson -- help` to directly invoke `meson` commands
  * `npx xpm run conan -- version` to directly invoke `conan` commands
  * `npx xpm run lock --config native|wasm|native-debug|wasm-debug` to lock the `conan` dependencies for the current configuration
- * `npx xpm run clean [--config native|wasm|native-debug|wasm-debug]` to clean the build directory as well as all the `conan` build trees
+ * `npx xpm run clean --config native|wasm|native-debug|wasm-debug` to clean the build directory as well as all the `conan` build trees
 
 When you invoke `xpm` directly the `npm` options must be passed in the form of `npm_config_*` environment variables:
 
