@@ -36,32 +36,9 @@
         "conanGraphInfo": "conan graph info {{ properties.argsConanShared }} {{ properties.argsConanNative }} ."
       }
     },
-    "native-xpack": {
-      "inherit": [
-        "native"
-      ],
-      "actions": {
-        "clang": "clang"
-      },
-      "properties": {
-        "buildType": "release",
-        "toolchain": "clang"
-      },
-      "devDependencies": {
-        "@xpack-dev-tools/clang": "17.0.6-1.1"
-      }
-    },
     "native-debug": {
       "inherit": [
         "native"
-      ],
-      "properties": {
-        "buildType": "debug"
-      }
-    },
-    "native-xpack-debug": {
-      "inherit": [
-        "native-xpack"
       ],
       "properties": {
         "buildType": "debug"
