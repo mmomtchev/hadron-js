@@ -10,7 +10,7 @@ jobs:
         platform: [ubuntu-latest, windows-latest, macos-latest]
         build: ['system', 'standalone']
         project:
-          - mmomtchev/hadron-swig-napi-exampe-project
+          - mmomtchev/hadron-swig-napi-example-project
 
     runs-on: ${{ matrix.platform }}
 
@@ -30,7 +30,6 @@ jobs:
           repository: ${{ matrix.project }}
           path: ${{ github.workspace }}/project
           token: ${{ github.token }}
-          ref: main
 
       - name: Setup ${{ matrix.project }}
         shell: bash
