@@ -30,6 +30,7 @@ jobs:
           repository: ${{ matrix.project }}
           path: ${{ github.workspace }}/project
           token: ${{ github.token }}
+          ref: main
 
       - name: Setup ${{ matrix.project }}
         shell: bash
