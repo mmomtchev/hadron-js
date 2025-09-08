@@ -1,0 +1,44 @@
+name: hadron projects
+on:
+  workflow_dispatch
+
+jobs:
+  native:
+    name: ${{ matrix.project }}/${{ matrix.platform }}/${{ matrix.build }}
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, windows-latest, macos-latest]
+        build: ['system', 'standalone']
+        project:
+          - mmomtchev/hadron-swig-napi-exampe-project
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout hadron
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm install
+      - run: sudo npm link
+
+      - name: Checkout ${{ matrix.project }}
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.project }}
+          path: ${{ github.workspace }}/project
+
+      - name: Setup ${{ matrix.project }}
+        shell: bash
+        run: |
+          cd project
+          npm install
+          npm link @mmomtchev/hadron
+
+      - name: Run default build
+        shell: bash
+        run: |
+          cd project
+          npm install --build-from-source
