@@ -27,7 +27,7 @@ jobs:
       - name: Checkout ${{ matrix.project }}
         uses: actions/checkout@v4
         with:
-          repository: ${{ matrix.project }}
+          repository: ${{ matrix.project }}.git
           path: ${{ github.workspace }}/project
 
       - name: Setup ${{ matrix.project }}
