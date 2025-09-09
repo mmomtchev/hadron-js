@@ -6,5 +6,4 @@ build
 .github
 .mocharc.json
 .vscode
-tsconfig.json
 *.webp
