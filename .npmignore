@@ -1,0 +1,10 @@
+node_modules
+xpacks
+build
+/test
+.git
+.github
+.mocharc.json
+.vscode
+tsconfig.json
+*.webp
