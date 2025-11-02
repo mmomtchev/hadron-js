@@ -25,6 +25,14 @@
       "outFiles": [
         "${workspaceFolder}/dist/*.js"
       ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run mocha",
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/node_modules/mocha/lib/cli/cli.js",
+      "args": []
     }
   ]
 }
