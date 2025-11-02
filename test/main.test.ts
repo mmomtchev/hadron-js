@@ -40,12 +40,14 @@ function runXpmJSON(dir: string, cmd: string, env?: Record<string, string>) {
 describe('conan+meson-dual-async', () => {
   before('install xpacks / initialize conan profile', function () {
     this.timeout(240000);
-    cp.spawnSync(npx,
+    let r = cp.spawnSync(npx,
       ['xpm', 'install', '-q'],
       { cwd: path.resolve(fixtures, 'conan+meson-dual-async'), shell: true });
-    cp.spawnSync(npx,
+    assert.strictEqual(r.status, 0, r.stderr.toString());
+    r = cp.spawnSync(npx,
       ['xpm', 'run', '-q', 'conan'],
       { cwd: path.resolve(fixtures, 'conan+meson-dual-async'), shell: true });
+    assert.strictEqual(r.status, 0, r.stderr.toString());
   });
 
   describe('meson options', () => {
@@ -175,12 +177,10 @@ describe('conan+meson-dual-async', () => {
   describe('meson-dual-async', () => {
     before('install xpacks / initialize conan profile', function () {
       this.timeout(240000);
-      cp.spawnSync(npx,
+      let r = cp.spawnSync(npx,
         ['xpm', 'install', '-q'],
         { cwd: path.resolve(fixtures, 'meson-dual-async'), shell: true });
-      cp.spawnSync(npx,
-        ['xpm', 'run', '-q', 'conan'],
-        { cwd: path.resolve(fixtures, 'meson-dual-async'), shell: true });
+      assert.strictEqual(r.status, 0, r.stderr.toString());
     });
 
     describe('meson options', () => {
