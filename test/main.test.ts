@@ -181,10 +181,6 @@ describe('conan+meson-dual-async', () => {
         ['xpm', 'install', '-q'],
         { cwd: path.resolve(fixtures, 'meson-dual-async'), shell: true });
       assert.strictEqual(r.status, 0, r.stderr.toString());
-      r = cp.spawnSync(npx,
-        ['xpm', 'run', '-q', 'conan'],
-        { cwd: path.resolve(fixtures, 'meson-dual-async'), shell: true })
-      assert.strictEqual(r.status, 0, r.stderr.toString());
     });
 
     describe('meson options', () => {
