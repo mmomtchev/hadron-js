@@ -1,6 +1,6 @@
     {
       "devDependencies": {
-        "@mmomtchev/conan-xpack": "2.18.1-2"
+        "@mmomtchev/conan-xpack": "2.22.1-1"
       },
       "properties": {
         "argsConanInstall": "",
