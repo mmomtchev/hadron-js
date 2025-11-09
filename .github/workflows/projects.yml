@@ -42,4 +42,4 @@ jobs:
         shell: bash
         run: |
           cd project
-          npm install --build-from-source ${{ matrix.build == 'standalone' && '--standalone-build' || '' }}
+          npm install --build-from-source ${{ matrix.build == 'standalone' && '--standalone-build' || '' }} --enable-regenerate
