@@ -40,8 +40,12 @@ jobs:
       - name: Setup ${{ matrix.project }}
         shell: bash
         working-directory: ${{ github.workspace }}/project
-        run: |
-          npm install
+        run: npm install
+
+      - name: Link hadron
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: npm link @mmomtchev/hadron --verbose --foreground-scripts
 
       - name: Run default build
         shell: bash
