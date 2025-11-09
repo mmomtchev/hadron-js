@@ -10,7 +10,7 @@ jobs:
         platform: [ubuntu-latest, windows-latest, macos-latest]
         build: ['system', 'standalone']
         project:
-          - mmomtchev/hadron-swig-napi-example-project
+          - mmomtchev/magickwand.js
 
     runs-on: ${{ matrix.platform }}
 
@@ -42,4 +42,6 @@ jobs:
         shell: bash
         run: |
           cd project
-          npm install --build-from-source ${{ matrix.build == 'standalone' && '--standalone-build' || '' }} --enable-regenerate
+          npm install --build-from-source \
+            ${{ matrix.build == 'standalone' && '--standalone-build' || '' }} \
+            --enable-regenerate
