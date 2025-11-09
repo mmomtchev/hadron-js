@@ -34,6 +34,8 @@ jobs:
           repository: ${{ matrix.project }}
           path: ${{ github.workspace }}/project
           token: ${{ github.token }}
+          fetch-depth: 0
+          submodules: true
 
       - name: Setup ${{ matrix.project }}
         shell: bash
