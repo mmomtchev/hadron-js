@@ -15,18 +15,9 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
-      - name: Checkout hadron
-        uses: actions/checkout@v4
-        with:
-          path: ${{ github.workspace }}/hadron
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - run: npm install
-        working-directory: ${{ github.workspace }}/hadron
-      - run: sudo npm link
-        working-directory: ${{ github.workspace }}/hadron
 
       - name: Checkout ${{ matrix.project }}
         uses: actions/checkout@v4
@@ -42,10 +33,10 @@ jobs:
         working-directory: ${{ github.workspace }}/project
         run: npm install
 
-      - name: Link hadron
+      - name: Use current hadron (${{ github.ref_name }})
         shell: bash
         working-directory: ${{ github.workspace }}/project
-        run: npm link @mmomtchev/hadron --verbose --foreground-scripts --ignore-scripts
+        run: npm install git+https://github.com/mmomtchev/hadron-js.git#${{ github.ref_name }}
 
       - name: Run default build
         shell: bash
