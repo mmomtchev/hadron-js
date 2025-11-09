@@ -25,7 +25,7 @@ export function conanBuildOptions(path: string): ConanOption[] {
     r = JSON.parse(o.toString());
     assert(r.options_definitions);
   } catch (e) {
-    console.error('Failed parsing meson output', e);
+    console.error('Failed parsing conan output', e);
     throw e;
   }
 
