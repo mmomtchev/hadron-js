@@ -6,6 +6,7 @@ jobs:
   native:
     name: ${{ matrix.project }}/${{ matrix.platform }}/${{ matrix.build }}
     strategy:
+      fail-fast: false
       matrix:
         platform: [ubuntu-latest, windows-latest, macos-14]
         build: ['system', 'standalone']
