@@ -45,7 +45,7 @@ jobs:
       - name: Link hadron
         shell: bash
         working-directory: ${{ github.workspace }}/project
-        run: npm link @mmomtchev/hadron --verbose --foreground-scripts
+        run: npm link @mmomtchev/hadron --verbose --foreground-scripts --ignore-scripts
 
       - name: Run default build
         shell: bash
