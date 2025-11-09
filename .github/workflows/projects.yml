@@ -7,7 +7,7 @@ jobs:
     name: ${{ matrix.project }}/${{ matrix.platform }}/${{ matrix.build }}
     strategy:
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest]
+        platform: [ubuntu-latest, windows-latest, macos-14]
         build: ['system', 'standalone']
         project:
           - mmomtchev/magickwand.js
