@@ -17,12 +17,16 @@ jobs:
     steps:
       - name: Checkout hadron
         uses: actions/checkout@v4
+        with:
+          path: ${{ github.workspace }}/hadron
       - uses: actions/setup-node@v4
         with:
           node-version: 22
 
       - run: npm install
+        working-directory: ${{ github.workspace }}/hadron
       - run: sudo npm link
+        working-directory: ${{ github.workspace }}/hadron
 
       - name: Checkout ${{ matrix.project }}
         uses: actions/checkout@v4
@@ -33,15 +37,15 @@ jobs:
 
       - name: Setup ${{ matrix.project }}
         shell: bash
+        working-directory: ${{ github.workspace }}/project
         run: |
-          cd project
           npm install
           npm link @mmomtchev/hadron
 
       - name: Run default build
         shell: bash
+        working-directory: ${{ github.workspace }}/project
         run: |
-          cd project
           npm install --build-from-source \
             ${{ matrix.build == 'standalone' && '--standalone-build' || '' }} \
             --enable-regenerate
