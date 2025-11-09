@@ -40,7 +40,7 @@ jobs:
         working-directory: ${{ github.workspace }}/project
         run: |
           npm install
-          npm link @mmomtchev/hadron
+          npm link @mmomtchev/hadron --ignore-scripts
 
       - name: Run default build
         shell: bash
