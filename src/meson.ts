@@ -9,7 +9,7 @@ import { MesonOption, Environment, OptionVal, getNpmOption, quote } from './util
 const mesonBlacklist = ['prefix'];
 
 export function mesonBuildOptions(path: string): MesonOption[] {
-  let o, r;
+  let o: Buffer, r: { buildoptions: MesonOption[]; };
 
   try {
     o = cp.execSync('meson introspect --buildoptions meson.build -f', { env: { ...process.env, PATH: path } });
