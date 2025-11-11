@@ -5,7 +5,7 @@ import assert from 'node:assert';
 import { ConanOption, Environment, getNpmOption, optionEquivalence, OptionVal, quote } from './util.js';
 
 export function conanBuildOptions(path: string): ConanOption[] {
-  let o, r;
+  let o: Buffer, r: { options_definitions: ConanOption[]; };
 
   try {
     fs.statSync('conanfile.py');
