@@ -18,10 +18,10 @@ jobs:
           - mmomtchev/proj.js
         build:
           - system
-        include:
-          - project: mmomtchev/hadron-swig-napi-example-project
-            build: standalone
-          - project: mmomtchev/magickwand.js
+          - standalone
+        exclude:
+          # proj.js does not have a working standalone build yet
+          - project: mmomtchev/proj.js
             build: standalone
 
     runs-on: ${{ matrix.platform }}
