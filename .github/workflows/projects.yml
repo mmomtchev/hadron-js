@@ -107,7 +107,9 @@ jobs:
         working-directory: ${{ github.workspace }}/project
         run: npm install git+https://github.com/mmomtchev/hadron-js.git#${{ github.ref_name }}
 
+      # Only magickwand.js has --enable/--disable conan options
+      # Only the SWIG projects have --enable-regenerate
       - name: Run default build
         shell: bash
         working-directory: ${{ github.workspace }}/project
-        run: npm install --build-wasm-from-source --enable-regenerate
+        run: npm install --build-wasm-from-source --enable-conan --enable-regenerate
