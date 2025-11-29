@@ -16,17 +16,13 @@ jobs:
           - mmomtchev/hadron-swig-napi-example-project
           - mmomtchev/magickwand.js
           - mmomtchev/proj.js
+        build:
+          - system
         include:
           - project: mmomtchev/hadron-swig-napi-example-project
-            build: system
-          - project: mmomtchev/hadron-swig-napi-example-project
             build: standalone
           - project: mmomtchev/magickwand.js
-            build: system
-          - project: mmomtchev/magickwand.js
             build: standalone
-          - project: mmomtchev/proj.js
-            build: system
 
     runs-on: ${{ matrix.platform }}
 
