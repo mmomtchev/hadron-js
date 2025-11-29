@@ -48,7 +48,7 @@ jobs:
       - name: Setup ${{ matrix.project }}
         shell: bash
         working-directory: ${{ github.workspace }}/project
-        run: npm install
+        run: npm install --skip-native
 
       - name: Use current hadron (${{ github.ref_name }})
         shell: bash
@@ -100,7 +100,7 @@ jobs:
       - name: Setup ${{ matrix.project }}
         shell: bash
         working-directory: ${{ github.workspace }}/project
-        run: npm install
+        run: npm install --skip-wasm
 
       - name: Use current hadron (${{ github.ref_name }})
         shell: bash
