@@ -65,6 +65,9 @@ jobs:
             ${{ matrix.build == 'standalone' && '--standalone-build --enable-conan' || '' }} \
             --enable-regenerate
 
+      - name: Try loading the module
+        run: node -p "require('.')"
+
 
   wasm:
     name: ${{ matrix.project }} WASM
