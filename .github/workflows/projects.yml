@@ -3,7 +3,7 @@ on:
   workflow_dispatch
 
 jobs:
-  native-with-swig:
+  native:
     name: ${{ matrix.project }} ${{ matrix.platform }} ${{ matrix.build }}
     strategy:
       fail-fast: false
@@ -14,14 +14,19 @@ jobs:
           - macos-latest
         project:
           - mmomtchev/hadron-swig-napi-example-project
+          - mmomtchev/hadron-nobind-example-project
           - mmomtchev/magickwand.js
           - mmomtchev/proj.js
+          - mmomtchev/node-ffmpeg
         build:
           - system
           - standalone
         exclude:
           # proj.js does not have a working standalone build yet
           - project: mmomtchev/proj.js
+            build: standalone
+          # node-ffmpeg does not have a working standalone build yet
+          - project: mmomtchev/node-ffmpeg
             build: standalone
 
     runs-on: ${{ matrix.platform }}
@@ -59,7 +64,7 @@ jobs:
             --enable-regenerate
 
 
-  wasm-with-swig:
+  wasm:
     name: ${{ matrix.project }} WASM
     strategy:
       fail-fast: false
