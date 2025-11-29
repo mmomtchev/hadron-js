@@ -3,7 +3,7 @@ on:
   workflow_dispatch
 
 jobs:
-  native:
+  native-with-swig:
     name: ${{ matrix.project }} ${{ matrix.platform }} ${{ matrix.build }}
     strategy:
       fail-fast: false
@@ -57,3 +57,50 @@ jobs:
           npm install --build-from-source \
             ${{ matrix.build == 'standalone' && '--standalone-build --enable-conan' || '' }} \
             --enable-regenerate
+
+
+  wasm-with-swig:
+    name: ${{ matrix.project }} WASM
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - mmomtchev/hadron-swig-napi-example-project
+          - mmomtchev/magickwand.js
+          - mmomtchev/proj.js
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: 4.0.8
+
+      - name: Checkout ${{ matrix.project }}
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.project }}
+          path: ${{ github.workspace }}/project
+          token: ${{ github.token }}
+          fetch-depth: 0
+          submodules: true
+
+      - name: Setup ${{ matrix.project }}
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: npm install
+
+      - name: Use current hadron (${{ github.ref_name }})
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: npm install git+https://github.com/mmomtchev/hadron-js.git#${{ github.ref_name }}
+
+      - name: Run default build
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: npm install --build-wasm-from-source --enable-regenerate
