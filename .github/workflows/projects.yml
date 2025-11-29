@@ -9,13 +9,12 @@ jobs:
       fail-fast: false
       matrix:
         platform: [ubuntu-latest, windows-latest, macos-latest]
+        build: [ system, standalone ]
         include:
           - project: mmomtchev/magickwand.js
-            build: [ system, standalone ]
           - project: mmomtchev/proj.js
             build: system
           - project: mmomtchev/hadron-swig-example-project
-            build: [ system, standalone ]
 
     runs-on: ${{ matrix.platform }}
 
