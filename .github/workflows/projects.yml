@@ -66,6 +66,7 @@ jobs:
             --enable-regenerate
 
       - name: Try loading the module
+        working-directory: ${{ github.workspace }}/project
         run: node -p "require('.')"
 
 
