@@ -8,13 +8,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest]
-        build: [ system, standalone ]
+        platform:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
         include:
           - project: mmomtchev/magickwand.js
+            build: system
+          - project: mmomtchev/magickwand.js
+            build: standalone
+          - project: mmomtchev/hadron-swig-napi-example-project
+            build: system
+          - project: mmomtchev/hadron-swig-napi-example-project
+            build: standalone
           - project: mmomtchev/proj.js
             build: system
-          - project: mmomtchev/hadron-swig-example-project
 
     runs-on: ${{ matrix.platform }}
 
