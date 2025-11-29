@@ -44,5 +44,5 @@ jobs:
         working-directory: ${{ github.workspace }}/project
         run: |
           npm install --build-from-source \
-            ${{ matrix.build == 'standalone' && '--standalone-build' || '' }} \
+            ${{ matrix.build == 'standalone' && '--standalone-build --enable-conan' || '' }} \
             --enable-regenerate
