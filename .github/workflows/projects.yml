@@ -4,41 +4,117 @@ on:
 
 jobs:
   native:
-    name: ${{ matrix.project }}/${{ matrix.platform }}/${{ matrix.build }}
+    name: ${{ matrix.project }} ${{ matrix.platform }} ${{ matrix.build }}
     strategy:
+      fail-fast: false
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest]
-        build: ['system', 'standalone']
+        platform:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
         project:
-          - mmomtchev/hadron-swig-napi-exampe-project
+          - mmomtchev/hadron-swig-napi-example-project
+          - mmomtchev/hadron-nobind-example-project
+          - mmomtchev/magickwand.js
+          - mmomtchev/proj.js
+          - mmomtchev/node-ffmpeg
+        build:
+          - system
+          - standalone
+        exclude:
+          # proj.js does not have a working standalone build yet
+          - project: mmomtchev/proj.js
+            build: standalone
+          # node-ffmpeg does not have a working standalone build yet
+          - project: mmomtchev/node-ffmpeg
+            build: standalone
 
     runs-on: ${{ matrix.platform }}
 
     steps:
-      - name: Checkout hadron
-        uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - run: npm install
-      - run: sudo npm link
 
       - name: Checkout ${{ matrix.project }}
         uses: actions/checkout@v4
         with:
           repository: ${{ matrix.project }}
           path: ${{ github.workspace }}/project
+          token: ${{ github.token }}
+          fetch-depth: 0
+          submodules: true
 
       - name: Setup ${{ matrix.project }}
         shell: bash
-        run: |
-          cd project
-          npm install
-          npm link @mmomtchev/hadron
+        working-directory: ${{ github.workspace }}/project
+        run: npm install --skip-native --skip-wasm
 
+      - name: Use current hadron (${{ github.ref_name }})
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: npm install git+https://github.com/mmomtchev/hadron-js.git#${{ github.ref_name }}
+
+      # Only magickwand.js has --enable/--disable conan options
+      # Only the SWIG projects have --enable-regenerate
       - name: Run default build
         shell: bash
+        working-directory: ${{ github.workspace }}/project
         run: |
-          cd project
-          npm install --build-from-source
+          npm install --build-from-source \
+            ${{ matrix.build == 'standalone' && '--standalone-build --enable-conan' || '' }} \
+            --enable-regenerate \
+            --skip-wasm
+
+      - name: Try loading the module
+        working-directory: ${{ github.workspace }}/project
+        run: node -p "require('.')"
+
+
+  wasm:
+    name: ${{ matrix.project }} WASM
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - mmomtchev/hadron-swig-napi-example-project
+          - mmomtchev/magickwand.js
+          - mmomtchev/proj.js
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: 4.0.8
+
+      - name: Checkout ${{ matrix.project }}
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.project }}
+          path: ${{ github.workspace }}/project
+          token: ${{ github.token }}
+          fetch-depth: 0
+          submodules: true
+
+      - name: Setup ${{ matrix.project }}
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: npm install --skip-native --skip-wasm
+
+      - name: Use current hadron (${{ github.ref_name }})
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: npm install git+https://github.com/mmomtchev/hadron-js.git#${{ github.ref_name }}
+
+      # Only magickwand.js has --enable/--disable conan options
+      # Only the SWIG projects have --enable-regenerate
+      - name: Run default build
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: npm install --build-wasm-from-source --enable-conan --enable-regenerate --skip-native
