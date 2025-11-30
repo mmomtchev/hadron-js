@@ -63,7 +63,8 @@ jobs:
         run: |
           npm install --build-from-source \
             ${{ matrix.build == 'standalone' && '--standalone-build --enable-conan' || '' }} \
-            --enable-regenerate
+            --enable-regenerate \
+            --skip-native --skip-wasm
 
       - name: Try loading the module
         working-directory: ${{ github.workspace }}/project
@@ -116,4 +117,4 @@ jobs:
       - name: Run default build
         shell: bash
         working-directory: ${{ github.workspace }}/project
-        run: npm install --build-wasm-from-source --enable-conan --enable-regenerate
+        run: npm install --build-wasm-from-source --enable-conan --enable-regenerate --skip-native --skip-wasm
