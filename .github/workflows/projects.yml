@@ -155,13 +155,6 @@ jobs:
         working-directory: ${{ github.workspace }}/project
         run: npm install git+https://github.com/mmomtchev/hadron-js.git#${{ github.ref_name }}
 
-      - name: Check the files
-        run: |
-          ls -al
-          ls -al test/fixtures/magickwand-npmrc
-          ls -al
-          ls -al ${{ github.workspace }}/project/
-
       - name: Setup npmrc options
         shell: bash
         run: cp test/fixtures/magickwand-npmrc/npmrc ${{ github.workspace }}/project/.npmrc
@@ -169,7 +162,7 @@ jobs:
       - name: Run build with npmrc options
         shell: bash
         working-directory: ${{ github.workspace }}/project
-        run: npm install
+        run: npm install --verbose --foreground-scripts
 
       - name: Try loading the module
         working-directory: ${{ github.workspace }}/project
