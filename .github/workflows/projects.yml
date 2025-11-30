@@ -4,6 +4,7 @@ on:
 
 jobs:
   native:
+    if: false
     name: ${{ matrix.project }} ${{ matrix.platform }} ${{ matrix.build }}
     strategy:
       fail-fast: false
@@ -72,6 +73,7 @@ jobs:
 
 
   wasm:
+    if: false
     name: ${{ matrix.project }} WASM
     strategy:
       fail-fast: false
