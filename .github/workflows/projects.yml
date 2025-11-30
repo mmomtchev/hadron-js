@@ -157,7 +157,7 @@ jobs:
 
       - name: Setup npmrc options
         shell: bash
-        run: cat test/fixtures/magickwand-npmrc/npmrc >> ${{ env.npm_config_userconfig }}
+        run: cat test/fixtures/magickwand-npmrc/npmrc >> $HOME/.npmrc
 
       - name: Run build with npmrc options
         shell: bash
