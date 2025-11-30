@@ -130,6 +130,12 @@ jobs:
         with:
           node-version: 22
 
+      - name: Checkout npmrc
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            test/fixtures/magickwand-npmrc/npmrc
+
       - name: Checkout magickwand.js
         uses: actions/checkout@v4
         with:
@@ -148,12 +154,6 @@ jobs:
         shell: bash
         working-directory: ${{ github.workspace }}/project
         run: npm install git+https://github.com/mmomtchev/hadron-js.git#${{ github.ref_name }}
-
-      - name: Checkout npmrc
-        uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            test/fixtures/magickwand-npmrc/npmrc
 
       - name: Check the files
         run: |
