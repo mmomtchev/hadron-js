@@ -118,3 +118,57 @@ jobs:
         shell: bash
         working-directory: ${{ github.workspace }}/project
         run: npm install --build-wasm-from-source --enable-conan --enable-regenerate --skip-native
+
+
+  npmrc_options:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Checkout magickwand.js
+        uses: actions/checkout@v4
+        with:
+          repository: mmomtchev/magickwand.js
+          path: ${{ github.workspace }}/project
+          token: ${{ github.token }}
+          fetch-depth: 0
+          submodules: true
+
+      - name: Setup magickwand.js
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: npm install --skip-native --skip-wasm
+
+      - name: Use current hadron (${{ github.ref_name }})
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: npm install git+https://github.com/mmomtchev/hadron-js.git#${{ github.ref_name }}
+
+      - name: Checkout npmrc
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            test/fixtures/magickwand-npmrc/npmrc
+
+      - name: Setup npmrc options
+        shell: bash
+        run: cp test/fixtures/magickwand-npmrc/npmrc ${{ github.workspace }}/project/.npmrc
+
+      - name: Run build with npmrc options
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: npm install
+
+      - name: Try loading the module
+        working-directory: ${{ github.workspace }}/project
+        run: node -p "new (require('.').Magick.CoderInfo)('GIF').name()"
+
+      - name: Ensure that the module has been rebuilt
+        working-directory: ${{ github.workspace }}/project
+        run: |
+          if node -p "new (require('.').Magick.CoderInfo)('PNG').name()"; then
+            exit 1
+          fi
