@@ -160,7 +160,7 @@ Parsing of the `npm install` options is automatic. All `hadron`-based packages r
 * `--enable-standalone-build` or `--first_great_cpp_project_enable_standalone_build`: use the `hadron`-provided integrated `clang` compiler to build the project - which should work even if the target host does not have a C++ environment installed
 * `--skip-native` / `--first_great_cpp_project_skip_native` and `--skip-wasm` / `--first_great_cpp_project_skip_wasm` allow to skip installing the native or the WASM module - these are most useful in CI where the package will be rebuilt manually
 
-Specifying in `.npmrc` looks like this:
+Specifying in `.npmrc` looks like this (all non-letter characters must be replaced with `_` as many shells have problems with environment variables containing non letter characters):
 ```ini
 first_great_cpp_project_build_from_source = true
 ```

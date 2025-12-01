@@ -1,0 +1,6 @@
+magickwand_js_enable_regenerate = true
+magickwand_js_build_from_source = true
+magickwand_js_build_wasm_from_source = false
+magickwand_js_disable_fonts = true
+magickwand_js_disable_png = true
+magickwand.js_disable_jpeg = false
