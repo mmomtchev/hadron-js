@@ -244,15 +244,33 @@ You will need to include a distribution point in the `package.json`:
     "hosting": {
       "provider": "github",
       "repo": "great-developer/first_great_project"
-    },
-    "napi_versions": [
-      6
-    ]
+    }
   }
 }
 ```
 
-Then after building in CI for each platform, you will simply have to create a `.tar.gz` archive of the `./lib/binding` directory and upload it to the above specified URL.
+Then after building in CI for each platform, you will simply have to create a `.tar.gz` archive of the `./lib/binding/{os}-{arch}` directory and upload it to the above specified URL.
+
+The file will have to be called `{os}-{arch}.tar.gz`.
+
+## Using custom prebuilt binaries
+
+`prebuild-install` supports overriding the location of the prebuilt binaries. This allows users to build locally the module once for each supported platform, and then to distribute this binary automatically when installing the module in production.
+
+The module must be built locally using either `npm install` options or by directly invoking `xpm run prepare --config <native|wasm>` and `xpm run build --config <native|wasm>`. The resulting `./lib/binding/{os}-{arch}` must be uploaded as a `.tar.gz` to a custom URL and when installing the package the user will have to specify in his `.npmrc`:
+
+```ini
+first_great_cpp_project_binary_host = https://overriden-host.com/overriden-path
+```
+
+The file will have to be called `first_great_project_v1.0.0-napi-v8-{os}-{arch}.tar.gz`.
+
+Additionally, it is also possible to specify a local path:
+
+```ini
+first_great_cpp_project_local_prebuilds = /path/custom-binary/
+```
+
 
 # Standalone builds (building w/o C++ environment on the target host)
 
