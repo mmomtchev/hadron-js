@@ -11,6 +11,6 @@
       "commandPrepare": "{{ properties.commandConanBuildEnv[os.platform] }} meson setup --backend ninja --buildtype {{ properties.buildType }} {{ properties.buildFolderRelativePath }} . -Dprefix={{ properties.installFolderPath }} {{ properties.argsMesonPrepare }} {% mesonOptions %}",
       "commandPrepareNative": "{{ properties.commandPrepare }} --native-file {{ properties.hadronProfilesPath }}{{ path.sep }}conan.ini --native-file {{ properties.buildFolderRelativePath }}/conan_meson_native.ini",
       "commandPrepareWASM": "{{ properties.commandPrepare }} --cross-file {{ properties.hadronProfilesPath }}{{ path.sep }}conan.ini --cross-file {{ properties.buildFolderRelativePath }}/conan_meson_cross.ini",
-      "commandBuild": "{{ properties.commandConanBuildEnv[os.platform] }} meson compile -C {{ properties.buildFolderRelativePath }} -v"
+      "commandBuild": "{{ properties.commandConanBuildEnv[os.platform] }} meson compile -C {{ properties.buildFolderRelativePath }} {{ properties.argsMesonVerbose }}"
     }
   }
