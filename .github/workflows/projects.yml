@@ -204,6 +204,8 @@ jobs:
         shell: bash
         working-directory: ${{ github.workspace }}/project
         run: |
+          npx xpm install
+          npx xpm install --config native-debug
           npx xpm run generate
           npx xpm run prepare --config native-debug
           npx xpm run build --config native-debug
