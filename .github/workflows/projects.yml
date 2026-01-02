@@ -172,3 +172,44 @@ jobs:
           if node -p "new (require('.').Magick.CoderInfo)('PNG').name()"; then
             exit 1
           fi
+
+  debug:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Checkout magickwand.js
+        uses: actions/checkout@v4
+        with:
+          repository: mmomtchev/magickwand.js
+          path: ${{ github.workspace }}/project
+          token: ${{ github.token }}
+          fetch-depth: 0
+          submodules: true
+
+      - name: Setup magickwand.js
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: npm install --skip-native --skip-wasm
+
+      - name: Use current hadron (${{ github.ref_name }})
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: npm install git+https://github.com/mmomtchev/hadron-js.git#${{ github.ref_name }}
+
+      - name: Produce a debug build
+        shell: bash
+        working-directory: ${{ github.workspace }}/project
+        run: |
+          npx xpm install
+          npx xpm install --config native-debug
+          npx xpm run generate
+          npx xpm run prepare --config native-debug
+          npx xpm run build --config native-debug
+
+      - name: Try loading the module
+        working-directory: ${{ github.workspace }}/project
+        run: node -p "new (require('.').Magick.CoderInfo)('GIF').name()"

@@ -18,7 +18,9 @@
         "native"
       ],
       "properties": {
-        "buildType": "debug"
+        "buildType": "debug",
+        "argsConanVerbose": "",
+        "argsMesonVerbose": "--verbose"
       }
     }
   }
