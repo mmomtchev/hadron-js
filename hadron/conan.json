@@ -12,7 +12,7 @@
         "argsConanShared": "--build=missing --settings=build_type={{ properties.buildType | capitalize }} {{ properties.argsConanInstall }} {% conanOptions %}",
         "argsConanNative": "-pr:h={{ properties.hadronProfilesPath }}{{ path.sep }}{{ properties.toolchain }}-{{ os.platform }}.profile -pr:b={{ properties.hadronProfilesPath }}{{ path.sep }}{{ properties.toolchain }}-{{ os.platform }}.profile",
         "argsConanWASM": "-pr:b=default -pr:h={{ properties.hadronProfilesPath }}{{ path.sep }}{{ properties.toolchain }}-{{ properties.flavor }}.profile",
-        "argsConanVerbose": "{% unlessNpmOption loglevel %}-verror{% unlessNpmOption %}",
+        "argsConanVerbose": "{% unlessNpmOption loglevel %}-verror{% endunlessNpmOption %}",
         "commandConanDependencies": "conan install . {{ properties.argsConanShared }} -of {{ properties.buildFolderRelativePath }} {{ properties.argsConanVerbose }} {% conanOptions %}",
         "commandDependenciesNative": "{{ properties.commandConanDependencies }} {{ properties.argsConanNative }}",
         "commandDependenciesWASM": "{{ properties.commandConanDependencies }} {{ properties.argsConanWASM }}",
