@@ -1,6 +1,6 @@
 ## 1.1.0
 
-* Update `meson` to 1.9.1
+* Update `meson` to 1.10.1
 * Update `conan` to 2.22.1
 * On macOS, compile by default with `-mmacos-version-min=13.0`
 
