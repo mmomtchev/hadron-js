@@ -28,8 +28,7 @@
           "npx xpm install",
           "npx xpm install --config {{ configuration.name }}",
           "npx xpm run prepare --config {{ configuration.name }}",
-          "npx xpm run build --config {{ configuration.name }}",
-          "npx xpm run clean --config {{ configuration.name }}"
+          "npx xpm run build --config {{ configuration.name }}"
         ],
         "clean": "{{ properties.commandClean }}",
         "lock": "{{ properties.commandConanLockNative }}",
