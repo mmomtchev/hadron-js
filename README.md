@@ -278,7 +278,7 @@ Be sure to read the `README.xPacks.md` which details the experience of making th
 
 This option is currently in best-effort mode. It depends mostly on the quality of the Windows `clang` and `clang-cl` support of the various `conan` dependencies. It was not part of the original goals of the `hadron` project, but rather it was an interesting features that simply popped up along the way, given that `conan` and `xpm` provided all the necessary features.
 
-# Use in development and troubleshooting
+# Default `hadron` `xpm` actions
 
 Launching `npm install` with `--verbose` and `--foreground-scripts` will show you the verbose output of the build process.
 
@@ -288,6 +288,8 @@ When working the project locally, you can use:
  * `npx xpm run prepare --config native|wasm|native-debug|wasm-debug` to populate the `conan` dependencies and run the configure step of your project
  * `npx xpm run build --config native|wasm|native-debug|wasm-debug` to build the project
  * `npx xpm run configure --config native|wasm|native-debug|wasm-debug -- -Doptimizations=1` to run the `meson` `configure` step for modifying build options on a configured project
+ * `npx xpm run make  --config native|wasm|native-debug|wasm-debug` to invoke all the preceding actions in the right order
+ * `npx xpm run npm-install` to invoke the `make` action for a native release build and, if WASM is enabled, for a WASM release build
  * `npx xpm run meson -- help` to directly invoke `meson` commands
  * `npx xpm run conan -- version` to directly invoke `conan` commands
  * `npx xpm run lock --config native|wasm|native-debug|wasm-debug` to lock the `conan` dependencies for the current configuration
@@ -301,3 +303,12 @@ npm_config_enable_standalone_build=true npx xpm run build --config native-debug
 ```
 
 Do not forget that the integrated `meson` and `conan` come from xPacks and are purposely made to not interfere with existing `meson` and `conan` installations and will likely be different versions.
+
+## Wiring the `npm` scripts
+
+The recommended wiring of the `npm` scripts is:
+
+* `npm` `install` to `xpm` `npm-install` - this action will perform everything that is configured automatically
+* `npm` `postprepare` to `xpm` `clean` - in order to free the disk space used by both the project itself and its conan dependencies which can be very significant
+
+For projects using automatic code generation - especially SWIG JSE - the recommended placement of the SWIG JSE action is in the `npm` `preinstall` script.
