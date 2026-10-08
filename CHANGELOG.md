@@ -1,6 +1,7 @@
 ## 1.2.0
 
 * Remove the `clean` action from the `make` action, projects which want to enable automatic cleaning after rebuilding should wire the `clean` action to the `postprepare` `npm` script in order to avoid rebuilding multiple times when the `install` script is invoked multiple times
+* Update `conan` to 2.33.0 with support for Visual Studio 2026
 
 ## 1.1.0 2026-01-22
 
